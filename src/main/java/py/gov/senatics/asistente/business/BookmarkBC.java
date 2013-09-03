@@ -41,82 +41,53 @@
  * o escriba a la Free Software Foundation (FSF) Inc.,
  * 51 Franklin St, Fifth Floor, Boston, MA 02111-1301, USA.
  */
-package py.gov.setics.asistente.business;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+package py.gov.senatics.asistente.business;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.ticpy.tekoporu.annotation.Startup;
+import org.ticpy.tekoporu.stereotype.BusinessController;
+import org.ticpy.tekoporu.template.DelegateCrud;
+import org.ticpy.tekoporu.transaction.Transactional;
 
-import org.ticpy.tekoporu.junit.DemoiselleRunner;
-
-import py.gov.senatics.asistente.business.BookmarkBC;
 import py.gov.senatics.asistente.domain.Bookmark;
+import py.gov.senatics.asistente.persistence.BookmarkDAO;
 
-@RunWith(DemoiselleRunner.class)
-public class BookmarkBCTest {
-
+@BusinessController
+public class BookmarkBC extends DelegateCrud<Bookmark, Long, BookmarkDAO> {
+	
+	private static final long serialVersionUID = 1L;
+	
 	@Inject
-	private BookmarkBC bookmarkBC;
+	private BookmarkDAO bookmarkDAO;
 	
-	@Before
-	public void before() {
-		for (Bookmark bookmark : bookmarkBC.findAll()) {
-			bookmarkBC.delete(bookmark.getId());
+	@Startup
+	@Transactional
+	public void load() {
+		if (findAll().isEmpty()) {
+			insert(new Bookmark("Demoiselle Portal", "http://www.frameworkdemoiselle.gov.br"));
+			insert(new Bookmark("Demoiselle SourceForge", "http://sf.net/projects/demoiselle"));
+			insert(new Bookmark("Twitter", "http://twitter.frameworkdemoiselle.gov.br"));
+			insert(new Bookmark("Blog", "http://blog.frameworkdemoiselle.gov.br"));
+			insert(new Bookmark("Wiki", "http://wiki.frameworkdemoiselle.gov.br"));
+			insert(new Bookmark("Bug Tracking", "http://tracker.frameworkdemoiselle.gov.br"));
+			insert(new Bookmark("Forum", "http://forum.frameworkdemoiselle.gov.br"));
+			insert(new Bookmark("SVN", "http://svn.frameworkdemoiselle.gov.br"));
+			insert(new Bookmark("Maven", "http://repository.frameworkdemoiselle.gov.br"));
+			insert(new Bookmark("Downloads", "http://download.frameworkdemoiselle.gov.br"));
 		}
-	}
+		
 
-	@Test
-	public void testLoad() {
-		bookmarkBC.load();
-		List<Bookmark> listaBookmarks = bookmarkBC.findAll();
-		assertNotNull(listaBookmarks);
-		assertEquals(10, listaBookmarks.size());
 	}
 	
-	@Test
-	public void testInsert() {
-		Bookmark bookmark = new Bookmark("Demoiselle Portal", "http://www.frameworkdemoiselle.gov.br");
-		bookmarkBC.insert(bookmark);
-		List<Bookmark> listaBookmarks = bookmarkBC.findAll();
-		assertNotNull(listaBookmarks);
-		assertEquals(1, listaBookmarks.size());
+	public List<Bookmark> findPage(int pageSize, int first, String sortField, boolean sortOrderAsc){
+		return bookmarkDAO.findPage(pageSize,first, sortField, sortOrderAsc);
 	}
 	
-	@Test
-	public void testDelete() {
-		Bookmark bookmark = new Bookmark("Demoiselle Portal", "http://www.frameworkdemoiselle.gov.br");
-		bookmarkBC.insert(bookmark);
-		
-		List<Bookmark> listaBookmarks = bookmarkBC.findAll();
-		assertNotNull(listaBookmarks);
-		assertEquals(1, listaBookmarks.size());
-		
-		bookmarkBC.delete(bookmark.getId());
-		listaBookmarks = bookmarkBC.findAll();
-		assertEquals(0, listaBookmarks.size());
+	public int count() {
+		return bookmarkDAO.count();
 	}
-	@Test
-	public void testUpdate() {
-		Bookmark bookmark = new Bookmark("Demoiselle Portal", "http://www.frameworkdemoiselle.gov.br");
-		bookmarkBC.insert(bookmark);
-		
-		List<Bookmark> listaBookmarks = bookmarkBC.findAll();
-		Bookmark bookmark2 = (Bookmark)listaBookmarks.get(0);
-		assertNotNull(listaBookmarks);
-		assertEquals("Demoiselle Portal", bookmark2.getDescription());
-		
-		bookmark2.setDescription("Demoiselle Portal alterado");
-		bookmarkBC.update(bookmark2);
-		
-		listaBookmarks = bookmarkBC.findAll();
-		Bookmark bookmark3 = (Bookmark)listaBookmarks.get(0);
-		assertEquals("Demoiselle Portal alterado", bookmark3.getDescription());
-	}
+	
 }

@@ -41,82 +41,93 @@
  * o escriba a la Free Software Foundation (FSF) Inc.,
  * 51 Franklin St, Fifth Floor, Boston, MA 02111-1301, USA.
  */
-package py.gov.setics.asistente.business;
+package py.gov.senatics.asistente.view;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import org.ticpy.tekoporu.junit.DemoiselleRunner;
+import org.primefaces.model.LazyDataModel;
+import org.ticpy.tekoporu.annotation.NextView;
+import org.ticpy.tekoporu.annotation.PreviousView;
+import org.ticpy.tekoporu.stereotype.ViewController;
+import org.ticpy.tekoporu.template.AbstractListPageBean;
+import org.ticpy.tekoporu.transaction.Transactional;
 
 import py.gov.senatics.asistente.business.BookmarkBC;
 import py.gov.senatics.asistente.domain.Bookmark;
 
-@RunWith(DemoiselleRunner.class)
-public class BookmarkBCTest {
+@ViewController
+@NextView("/bookmark_edit.xhtml")
+@PreviousView("/bookmark_list.xhtml")
+public class BookmarkListMB extends AbstractListPageBean<Bookmark, Long> {
 
+	private static final long serialVersionUID = 1L;
+	
 	@Inject
-	private BookmarkBC bookmarkBC;
+	private BookmarkBC bc;
 	
-	@Before
-	public void before() {
-		for (Bookmark bookmark : bookmarkBC.findAll()) {
-			bookmarkBC.delete(bookmark.getId());
-		}
+	private LazyDataModel<Bookmark> model;	
+	private int pageSize = 5; //default page size
+		
+	@SuppressWarnings("serial")
+	@PostConstruct
+	public void loadLazyModel() {
+		
+		model = new LazyDataModel<Bookmark>() {
+			@Override
+			public List<Bookmark> load(int first, int pageSize, String sortField,
+					boolean sortOrder, Map<String, String> filters) {
+				
+					if(sortField == null) sortField = "id"; //default sort field
+					
+					List<Bookmark> bookmark = new ArrayList<Bookmark>();
+					bookmark = bc.findPage(pageSize, first, sortField, sortOrder);
+					
+					//sort in ram
+					//if (sortField != null) {
+					//	Collections.sort(bookmark,new LazySorter<Bookmark>(sortField,sortOrder));
+					//}
+					
+					return bookmark;
+			}
+		};
+		
+		model.setRowCount(bc.count());
+		model.setPageSize(pageSize);
+		
+	}
+	
+	@Override
+	protected List<Bookmark> handleResultList() {
+		return this.bc.findAll();		
 	}
 
-	@Test
-	public void testLoad() {
-		bookmarkBC.load();
-		List<Bookmark> listaBookmarks = bookmarkBC.findAll();
-		assertNotNull(listaBookmarks);
-		assertEquals(10, listaBookmarks.size());
+	@Transactional
+	public String deleteSelection() {
+		boolean delete;
+		for (Iterator<Long> iter = getSelection().keySet().iterator(); iter.hasNext();) {
+			Long id = iter.next();
+			delete = getSelection().get(id);
+
+			if (delete) {
+				bc.delete(id);
+				iter.remove();
+			}
+		}
+		return getPreviousView();
 	}
 	
-	@Test
-	public void testInsert() {
-		Bookmark bookmark = new Bookmark("Demoiselle Portal", "http://www.frameworkdemoiselle.gov.br");
-		bookmarkBC.insert(bookmark);
-		List<Bookmark> listaBookmarks = bookmarkBC.findAll();
-		assertNotNull(listaBookmarks);
-		assertEquals(1, listaBookmarks.size());
+	public LazyDataModel<Bookmark> getModel() {
+		return model;
 	}
-	
-	@Test
-	public void testDelete() {
-		Bookmark bookmark = new Bookmark("Demoiselle Portal", "http://www.frameworkdemoiselle.gov.br");
-		bookmarkBC.insert(bookmark);
-		
-		List<Bookmark> listaBookmarks = bookmarkBC.findAll();
-		assertNotNull(listaBookmarks);
-		assertEquals(1, listaBookmarks.size());
-		
-		bookmarkBC.delete(bookmark.getId());
-		listaBookmarks = bookmarkBC.findAll();
-		assertEquals(0, listaBookmarks.size());
+
+	public int getPageSize() {
+		return pageSize;
 	}
-	@Test
-	public void testUpdate() {
-		Bookmark bookmark = new Bookmark("Demoiselle Portal", "http://www.frameworkdemoiselle.gov.br");
-		bookmarkBC.insert(bookmark);
-		
-		List<Bookmark> listaBookmarks = bookmarkBC.findAll();
-		Bookmark bookmark2 = (Bookmark)listaBookmarks.get(0);
-		assertNotNull(listaBookmarks);
-		assertEquals("Demoiselle Portal", bookmark2.getDescription());
-		
-		bookmark2.setDescription("Demoiselle Portal alterado");
-		bookmarkBC.update(bookmark2);
-		
-		listaBookmarks = bookmarkBC.findAll();
-		Bookmark bookmark3 = (Bookmark)listaBookmarks.get(0);
-		assertEquals("Demoiselle Portal alterado", bookmark3.getDescription());
-	}
+
 }

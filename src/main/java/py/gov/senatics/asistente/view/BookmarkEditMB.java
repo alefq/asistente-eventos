@@ -41,82 +41,51 @@
  * o escriba a la Free Software Foundation (FSF) Inc.,
  * 51 Franklin St, Fifth Floor, Boston, MA 02111-1301, USA.
  */
-package py.gov.setics.asistente.business;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.util.List;
+package py.gov.senatics.asistente.view;
 
 import javax.inject.Inject;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import org.ticpy.tekoporu.junit.DemoiselleRunner;
+import org.ticpy.tekoporu.annotation.PreviousView;
+import org.ticpy.tekoporu.stereotype.ViewController;
+import org.ticpy.tekoporu.template.AbstractEditPageBean;
+import org.ticpy.tekoporu.transaction.Transactional;
 
 import py.gov.senatics.asistente.business.BookmarkBC;
 import py.gov.senatics.asistente.domain.Bookmark;
 
-@RunWith(DemoiselleRunner.class)
-public class BookmarkBCTest {
+@ViewController
+@PreviousView("/bookmark_list.xhtml")
+public class BookmarkEditMB extends AbstractEditPageBean<Bookmark, Long> {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private BookmarkBC bookmarkBC;
-	
-	@Before
-	public void before() {
-		for (Bookmark bookmark : bookmarkBC.findAll()) {
-			bookmarkBC.delete(bookmark.getId());
-		}
+
+	@Override
+	@Transactional
+	public String delete() {
+		this.bookmarkBC.delete(getId());
+		return getPreviousView();
 	}
 
-	@Test
-	public void testLoad() {
-		bookmarkBC.load();
-		List<Bookmark> listaBookmarks = bookmarkBC.findAll();
-		assertNotNull(listaBookmarks);
-		assertEquals(10, listaBookmarks.size());
+	@Override
+	@Transactional
+	public String insert() {
+		this.bookmarkBC.insert(getBean());
+		return getPreviousView();
 	}
-	
-	@Test
-	public void testInsert() {
-		Bookmark bookmark = new Bookmark("Demoiselle Portal", "http://www.frameworkdemoiselle.gov.br");
-		bookmarkBC.insert(bookmark);
-		List<Bookmark> listaBookmarks = bookmarkBC.findAll();
-		assertNotNull(listaBookmarks);
-		assertEquals(1, listaBookmarks.size());
+
+	@Override
+	@Transactional
+	public String update() {
+		this.bookmarkBC.update(getBean());
+		return getPreviousView();
 	}
-	
-	@Test
-	public void testDelete() {
-		Bookmark bookmark = new Bookmark("Demoiselle Portal", "http://www.frameworkdemoiselle.gov.br");
-		bookmarkBC.insert(bookmark);
-		
-		List<Bookmark> listaBookmarks = bookmarkBC.findAll();
-		assertNotNull(listaBookmarks);
-		assertEquals(1, listaBookmarks.size());
-		
-		bookmarkBC.delete(bookmark.getId());
-		listaBookmarks = bookmarkBC.findAll();
-		assertEquals(0, listaBookmarks.size());
+
+	@Override
+	protected void handleLoad() {
+		setBean(this.bookmarkBC.load(getId()));
 	}
-	@Test
-	public void testUpdate() {
-		Bookmark bookmark = new Bookmark("Demoiselle Portal", "http://www.frameworkdemoiselle.gov.br");
-		bookmarkBC.insert(bookmark);
-		
-		List<Bookmark> listaBookmarks = bookmarkBC.findAll();
-		Bookmark bookmark2 = (Bookmark)listaBookmarks.get(0);
-		assertNotNull(listaBookmarks);
-		assertEquals("Demoiselle Portal", bookmark2.getDescription());
-		
-		bookmark2.setDescription("Demoiselle Portal alterado");
-		bookmarkBC.update(bookmark2);
-		
-		listaBookmarks = bookmarkBC.findAll();
-		Bookmark bookmark3 = (Bookmark)listaBookmarks.get(0);
-		assertEquals("Demoiselle Portal alterado", bookmark3.getDescription());
-	}
+
 }

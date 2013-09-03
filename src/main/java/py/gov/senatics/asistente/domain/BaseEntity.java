@@ -2,7 +2,7 @@ package py.gov.senatics.asistente.domain;
 
 import org.apache.commons.lang.StringUtils;
 
-import py.gov.setics.asistente.util.ReflectionUtil;
+import py.gov.senatics.asistente.util.ReflectionUtil;
 
 public abstract class BaseEntity<I> {
 

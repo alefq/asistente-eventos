@@ -7,9 +7,9 @@
 	-->
 	<persistence-unit name="bookmark-ds" transaction-type="RESOURCE_LOCAL">
 
-		<class>py.gov.setics.asistente.domain.Bookmark</class>
-		<class>py.gov.setics.asistente.domain.Rol</class>
-		<class>py.gov.setics.asistente.domain.Usuario</class>
+		<class>py.gov.senatics.asistente.domain.Bookmark</class>
+		<class>py.gov.senatics.asistente.domain.Rol</class>
+		<class>py.gov.senatics.asistente.domain.Usuario</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver" />
@@ -32,7 +32,7 @@
 	<persistence-unit name="bookmark-ds" transaction-type="RESOURCE_LOCAL">
 		<non-jta-data-source>java:/DefaultDS</non-jta-data-source>
 
-		<class>py.gov.setics.asistente.domain.Bookmark</class>
+		<class>py.gov.senatics.asistente.domain.Bookmark</class>
 
 		<properties>
 			<property name="hibernate.show_sql" value="true" />
@@ -48,7 +48,7 @@
 	<persistence-unit name="bookmark-ds" transaction-type="JTA">
 		<jta-data-source>java:/DefaultDS</jta-data-source>
 
-		<class>py.gov.setics.asistente.domain.Bookmark</class>
+		<class>py.gov.senatics.asistente.domain.Bookmark</class>
 
 		<properties>
 			<property name="hibernate.show_sql" value="true" />
