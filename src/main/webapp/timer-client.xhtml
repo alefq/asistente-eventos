@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    Copyright (c) 2013 Oracle and/or its affiliates. All rights reserved.
+
+    You may not modify, use, reproduce, or distribute this software except in
+    compliance with  the terms of the License at:
+    http://java.net/projects/javaeetutorial/pages/BerkeleyLicense
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<body>
+	<ui:composition template="/timer.xhtml">
+		<ui:define name="title">
+                Timer page
+            </ui:define>
+
+		<ui:define name="body">
+			<p>The last programmatic timeout was:
+				#{timerManager.lastProgrammaticTimeout}.</p>
+
+			<p>The last automatic timeout was:
+				#{timerManager.lastAutomaticTimeout}</p>
+
+			<p>Set a programmatic timer here.</p>
+			<h:form>
+				<h:commandButton value="Set Timer" action="#{eventMB.setTimer}" />
+				<h:commandButton value="Refresh" action="timer-client" />
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>
+

@@ -1,0 +1,76 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="../template/main.xhtml">
+
+	<ui:define name="body">
+		<h:form prependId="false">
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton value="#{messages['boton.guardar']}" action="#{usuarioEditMB.insert}"
+						rendered="#{!usuarioEditMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['boton.guardar']}" action="#{usuarioEditMB.update}"
+						rendered="#{usuarioEditMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['boton.eliminar']}" onclick="confirmation.show()"
+						rendered="#{usuarioEditMB.updateMode}" type="button" immediate="true" ajax="false" />
+					<p:confirmDialog message="#{messages['label.confirm.eliminar']}" showEffect="bounce" hideEffect="explode"
+						header="#{messages['label.dialog.eliminar']}" severity="alert" widgetVar="confirmation">
+						<h:commandButton value="#{messages['boton.dialog.yes']}" action="#{usuarioEditMB.delete}" immediate="true"
+							ajax="false" />
+						<h:commandButton value="#{messages['boton.dialog.no']}" onclick="confirmation.hide()" type="button" />
+					</p:confirmDialog>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<br/>
+
+			<p:fieldset legend="#{messages['usuario.label']}" toggleable="true" toggleSpeed="500">
+				<h:panelGrid id="fields" rows="8" columns= "3">
+					
+					<h:outputLabel value="#{messages['usuario.label.username']}: " for="username" styleClass="text-input" />
+					<h:inputText id="username" value="#{usuarioEditMB.bean.username}" required="true"
+						title="#{messages['usuario.label.username']}" />
+					<p:message for="username" display="default" />
+					
+					<h:outputLabel value="#{messages['usuario.label.password']}: " for="pwd" styleClass="text-input" />
+					<h:inputText id="pwd" value="#{usuarioEditMB.bean.pwd}" required="true"
+						title="#{messages['usuario.label.password']}" />
+					<p:message for="pwd" display="default" />
+					
+					<h:outputLabel value="#{messages['usuario.label.nombre']}: " for="nombre" styleClass="text-input" />
+					<h:inputText id="nombre" value="#{usuarioEditMB.bean.nombre}" required="true"
+						title="#{messages['usuario.label.nombre']}" />
+					<p:message for="nombre" display="default"/>
+					
+					<h:outputLabel value="#{messages['usuario.label.apellido']}: " for="apellido" styleClass="text-input" />
+					<h:inputText id="apellido" value="#{usuarioEditMB.bean.apellido}"
+						title="#{messages['usuario.label.apellido']}" required="true"/>
+					<p:message for="apellido" display="default"/>
+					
+					<h:outputLabel value="#{messages['usuario.label.telefono']}: " for="telefono" styleClass="text-input" />
+					<h:inputText id="telefono" value="#{usuarioEditMB.bean.telefono}"
+						title="#{messages['usuario.label.telefono']}" />
+					<p:message for="telefono" />
+					
+					<h:outputLabel value="#{messages['usuario.label.activo']}:"/>
+					<h:selectOneRadio value="#{usuarioEditMB.bean.activo}" partialSubmit="true" >
+   						<f:selectItem itemValue="Y" itemLabel="Yes" />
+   						<f:selectItem itemValue="N" itemLabel="No" />
+					</h:selectOneRadio><br/>
+					
+					
+					<h:outputLabel value="#{messages['usuario.label.rol']}:"/> 					
+					<h:selectOneListbox value="#{usuarioEditMB.bean.rol.rolId}" size="1">						
+						<f:selectItems var="rol" value="#{usuarioEditMB.tiposRoles}" itemLabel="#{rol.descripcion}" itemValue="#{rol.rolId}"/>	
+					</h:selectOneListbox><br/>
+					
+					
+					<h:outputLabel value="#{messages['usuario.label.email']}: " for="email" styleClass="text-input" />
+					<h:inputText id="email" value="#{usuarioEditMB.bean.email}"
+						title="#{messages['usuario.label.email']}" />
+					<p:message for="email" />
+	
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>

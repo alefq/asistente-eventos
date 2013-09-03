@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="../template/main.xhtml">
+
+	<ui:define name="body">
+		<h:form prependId="false">
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton title="#{messages['boton.guardar']}" image="ui-icon-disk" action="#{rolEditMB.insert}"
+						rendered="#{!rolEditMB.updateMode}" ajax="false" />
+					<p:commandButton title="#{messages['boton.guardar']}" image="ui-icon-disk" action="#{rolEditMB.update}"
+						rendered="#{rolEditMB.updateMode}" ajax="false" />
+					<p:commandButton title="#{messages['boton.eliminar']}" image="ui-icon-trash" onclick="confirmation.show()"
+						rendered="#{rolEditMB.updateMode}" type="button" immediate="true" ajax="false" />
+					<p:confirmDialog message="#{messages['label.confirm.eliminar']}" showEffect="bounce" hideEffect="explode"
+						header="#{messages['label.dialog.eliminar']}" severity="alert" widgetVar="confirmation">
+						<h:commandButton value="#{messages['boton.dialog.yes']}" action="#{rolEditMB.delete}" immediate="true"
+							ajax="false" />
+						<h:commandButton value="#{messages['boton.dialog.no']}" onclick="confirmation.hide()" type="button" />
+					</p:confirmDialog>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<br/>
+
+			<p:fieldset legend="#{messages['rol.label']}" toggleable="true" toggleSpeed="500">
+				<h:panelGrid id="fields" columns="3">
+					<h:outputLabel value="#{messages['rol.label.id']}: " for="id" styleClass="text-input" />
+					<h:outputText id="id" value="#{rolEditMB.bean.rolId}" />
+					<p:message for="id" />
+
+					<h:outputLabel value="#{messages['rol.label.descripcion']}: " for="descripcion" styleClass="text-input" />
+					<h:inputText id="descripcion" value="#{rolEditMB.bean.descripcion}"
+						title="#{messages['rol.label.descripcion']}" required="true"/>
+					<p:message for="descripcion" display="default" />
+
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>

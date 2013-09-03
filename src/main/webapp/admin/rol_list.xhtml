@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="../template/main.xhtml">
+
+	<ui:define name="body">
+		<h:form>
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton title="#{messages['boton.nuevo']}" image="ui-icon-document" action="#{rolListMB.getNextView}"
+						actionListener="#{rolListMB.clear}" ajax="false" />
+					
+					<p:commandButton title="#{messages['boton.eliminar']}" image="ui-icon-trash" onclick="confirmation.show()"
+						type="button" immediate="true" ajax="false" />
+
+					<p:confirmDialog message="#{messages['label.confirm.eliminar']}" showEffect="bounce" hideEffect="explode"
+						header="#{messages['label.dialog.alerta']}!" severity="alert" widgetVar="confirmation">
+
+						<h:commandButton value="#{messages['boton.dialog.yes']}" action="#{rolListMB.deleteSelection}"
+							actionListener="#{rolListMB.clear}" />
+						<h:commandButton value="#{messages['boton.dialog.no']}" onclick="confirmation.hide()" type="button" />
+					</p:confirmDialog>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:dataTable id="list" var="bean" value="#{rolListMB.model}"
+				rows="#{rolListMB.pageSize}" paginator="true"
+				lazy="true" dynamic="true">
+				<f:facet name="header">#{messages['rol.list.table.title']}</f:facet>
+				<p:column style="width:5%;">
+					<h:selectBooleanCheckbox value="#{rolListMB.selection[bean.rolId]}" />
+				</p:column>
+				<p:column style="width:5%;" sortBy="#{bean.rolId}">
+					<f:facet name="header">#{messages['rol.label.id']}</f:facet>
+					<h:outputText value="#{bean.rolId}" />
+				</p:column>
+				<p:column sortBy="#{bean.descripcion}">
+					<f:facet name="header">#{messages['rol.label.nombre']}</f:facet>
+					<h:outputText value="#{bean.descripcion}" />
+				</p:column>
+
+				<p:column style="width:30px;">
+					<p:commandButton style="left:inherit" title="#{messages['boton.editar']}" image="ui-icon-pencil" 
+						action="#{rolListMB.getNextView}" actionListener="#{rolListMB.clear}" ajax="false" >
+						<f:param name="id" value="#{bean.rolId}" />
+					</p:commandButton>
+					
+				</p:column>
+			</p:dataTable>
+			
+			
+		</h:form>
+	</ui:define>
+</ui:composition>
