@@ -1,0 +1,152 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+
+	<ui:define name="body">
+		<h:form>
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton title="#{messages['button.new']}" image="ui-icon-document" action="#{personaListMB.getNextView}"
+						actionListener="#{personaListMB.clear}" ajax="false" />
+
+					<p:commandButton title="#{messages['button.delete']}" image="ui-icon-trash" onclick="confirmation.show()"
+						type="button" immediate="true" ajax="false" />
+
+					<p:confirmDialog message="#{messages['label.confirm.delete']}" showEffect="bounce" hideEffect="explode"
+						header="#{messages['label.dialog.alert']}!" severity="alert" widgetVar="confirmation">
+
+						<h:commandButton value="#{messages['button.dialog.yes']}" action="#{personaListMB.deleteSelection}"
+							actionListener="#{personaListMB.clear}" />
+						<h:commandButton value="#{messages['button.dialog.no']}" onclick="confirmation.hide()" type="button" />
+					</p:confirmDialog>
+				</p:toolbarGroup>
+			</p:toolbar>
+			<p:dataTable id="list" var="bean" value="#{personaListMB.resultList}">
+				<f:facet name="header">#{messages['persona.list.table.title']}</f:facet>
+				<p:column style="width:1%;">
+					<h:selectBooleanCheckbox value="#{personaListMB.selection[bean.personaId]}"></h:selectBooleanCheckbox>
+				</p:column>
+				
+				<p:column style="width:5%;" sortBy="#{bean.personaId}">
+					<f:facet name="header">#{messages['persona.label.personaId']}</f:facet>
+					<h:outputText value="#{bean.personaId}" />
+				</p:column>
+						
+				<p:column sortBy="#{bean.apellido}">
+					<f:facet name="header">#{messages['persona.label.apellido']}</f:facet>
+					<h:commandLink action="#{personaListMB.getNextView}" actionListener="#{personaListMB.clear}">
+						<h:outputText value="#{bean.apellido}" />
+						<f:param name="id" value="#{bean.personaId}" />
+					</h:commandLink>
+				</p:column>
+						
+				<p:column sortBy="#{bean.cargo}">
+					<f:facet name="header">#{messages['persona.label.cargo']}</f:facet>
+					<h:commandLink action="#{personaListMB.getNextView}" actionListener="#{personaListMB.clear}">
+						<h:outputText value="#{bean.cargo}" />
+						<f:param name="id" value="#{bean.personaId}" />
+					</h:commandLink>
+				</p:column>
+						
+				<p:column sortBy="#{bean.documentoNumero}">
+					<f:facet name="header">#{messages['persona.label.documentoNumero']}</f:facet>
+					<h:commandLink action="#{personaListMB.getNextView}" actionListener="#{personaListMB.clear}">
+						<h:outputText value="#{bean.documentoNumero}" />
+						<f:param name="id" value="#{bean.personaId}" />
+					</h:commandLink>
+				</p:column>
+						
+				<p:column sortBy="#{bean.documentoTipo}">
+					<f:facet name="header">#{messages['persona.label.documentoTipo']}</f:facet>
+					<h:commandLink action="#{personaListMB.getNextView}" actionListener="#{personaListMB.clear}">
+						<h:outputText value="#{bean.documentoTipo}" />
+						<f:param name="id" value="#{bean.personaId}" />
+					</h:commandLink>
+				</p:column>
+						
+				<p:column sortBy="#{bean.emailInstitucional}">
+					<f:facet name="header">#{messages['persona.label.emailInstitucional']}</f:facet>
+					<h:commandLink action="#{personaListMB.getNextView}" actionListener="#{personaListMB.clear}">
+						<h:outputText value="#{bean.emailInstitucional}" />
+						<f:param name="id" value="#{bean.personaId}" />
+					</h:commandLink>
+				</p:column>
+						
+				<p:column sortBy="#{bean.emailPersonal}">
+					<f:facet name="header">#{messages['persona.label.emailPersonal']}</f:facet>
+					<h:commandLink action="#{personaListMB.getNextView}" actionListener="#{personaListMB.clear}">
+						<h:outputText value="#{bean.emailPersonal}" />
+						<f:param name="id" value="#{bean.personaId}" />
+					</h:commandLink>
+				</p:column>
+						
+				<p:column sortBy="#{bean.estado}">
+					<f:facet name="header">#{messages['persona.label.estado']}</f:facet>
+					<h:commandLink action="#{personaListMB.getNextView}" actionListener="#{personaListMB.clear}">
+						<h:outputText value="#{bean.estado}" />
+						<f:param name="id" value="#{bean.personaId}" />
+					</h:commandLink>
+				</p:column>
+						
+				<p:column sortBy="#{bean.institucionNoRegistrada}">
+					<f:facet name="header">#{messages['persona.label.institucionNoRegistrada']}</f:facet>
+					<h:commandLink action="#{personaListMB.getNextView}" actionListener="#{personaListMB.clear}">
+						<h:outputText value="#{bean.institucionNoRegistrada}" />
+						<f:param name="id" value="#{bean.personaId}" />
+					</h:commandLink>
+				</p:column>
+						
+				<p:column sortBy="#{bean.nombre}">
+					<f:facet name="header">#{messages['persona.label.nombre']}</f:facet>
+					<h:commandLink action="#{personaListMB.getNextView}" actionListener="#{personaListMB.clear}">
+						<h:outputText value="#{bean.nombre}" />
+						<f:param name="id" value="#{bean.personaId}" />
+					</h:commandLink>
+				</p:column>
+						
+				<p:column sortBy="#{bean.telefonoCelular}">
+					<f:facet name="header">#{messages['persona.label.telefonoCelular']}</f:facet>
+					<h:commandLink action="#{personaListMB.getNextView}" actionListener="#{personaListMB.clear}">
+						<h:outputText value="#{bean.telefonoCelular}" />
+						<f:param name="id" value="#{bean.personaId}" />
+					</h:commandLink>
+				</p:column>
+						
+				<p:column sortBy="#{bean.telefonoInstitucional}">
+					<f:facet name="header">#{messages['persona.label.telefonoInstitucional']}</f:facet>
+					<h:commandLink action="#{personaListMB.getNextView}" actionListener="#{personaListMB.clear}">
+						<h:outputText value="#{bean.telefonoInstitucional}" />
+						<f:param name="id" value="#{bean.personaId}" />
+					</h:commandLink>
+				</p:column>
+						
+				<p:column sortBy="#{bean.tokenConfirmacion}">
+					<f:facet name="header">#{messages['persona.label.tokenConfirmacion']}</f:facet>
+					<h:commandLink action="#{personaListMB.getNextView}" actionListener="#{personaListMB.clear}">
+						<h:outputText value="#{bean.tokenConfirmacion}" />
+						<f:param name="id" value="#{bean.personaId}" />
+					</h:commandLink>
+				</p:column>
+						
+				<p:column sortBy="#{bean.tokenTimestamp}">
+					<f:facet name="header">#{messages['persona.label.tokenTimestamp']}</f:facet>
+					<h:commandLink action="#{personaListMB.getNextView}" actionListener="#{personaListMB.clear}">
+						<h:outputText value="#{bean.tokenTimestamp}" />
+						<f:param name="id" value="#{bean.personaId}" />
+					</h:commandLink>
+				</p:column>
+						
+				<p:column sortBy="#{bean.institucion}">
+					<f:facet name="header">#{messages['persona.label.institucion']}</f:facet>
+					<h:commandLink action="#{personaListMB.getNextView}" actionListener="#{personaListMB.clear}">
+						<h:outputText value="#{bean.institucion}" />
+						<f:param name="id" value="#{bean.personaId}" />
+					</h:commandLink>
+				</p:column>
+						
+			</p:dataTable>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

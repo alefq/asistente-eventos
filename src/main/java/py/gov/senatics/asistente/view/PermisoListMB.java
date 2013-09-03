@@ -1,11 +1,8 @@
 package py.gov.senatics.asistente.view;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.primefaces.model.LazyDataModel;
@@ -16,7 +13,6 @@ import org.ticpy.tekoporu.template.AbstractListPageBean;
 import org.ticpy.tekoporu.transaction.Transactional;
 
 import py.gov.senatics.asistente.business.PermisoBC;
-import py.gov.senatics.asistente.domain.Bookmark;
 import py.gov.senatics.asistente.domain.Permiso;
 
 @ViewController

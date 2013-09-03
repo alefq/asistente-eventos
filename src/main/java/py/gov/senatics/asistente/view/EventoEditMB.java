@@ -7,42 +7,42 @@ import org.ticpy.tekoporu.stereotype.ViewController;
 import org.ticpy.tekoporu.template.AbstractEditPageBean;
 import org.ticpy.tekoporu.transaction.Transactional;
 
-import py.gov.senatics.asistente.business.BookmarkBC;
-import py.gov.senatics.asistente.domain.Bookmark;
+import py.gov.senatics.asistente.business.EventoBC;
+import py.gov.senatics.asistente.domain.Evento;
 
 @ViewController
-@PreviousView("./bookmark_list.jsf")
-public class BookmarkEditMB extends AbstractEditPageBean<Bookmark, Long> {
+@PreviousView("./evento_list.jsf")
+public class EventoEditMB extends AbstractEditPageBean<Evento, Long> {
 
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private BookmarkBC bookmarkBC;
+	private EventoBC eventoBC;
 	
 	@Override
 	@Transactional
 	public String delete() {
-		this.bookmarkBC.delete(getId());
+		this.eventoBC.delete(getId());
 		return getPreviousView();
 	}
 	
 	@Override
 	@Transactional
 	public String insert() {
-		this.bookmarkBC.insert(getBean());
+		this.eventoBC.insert(getBean());
 		return getPreviousView();
 	}
 	
 	@Override
 	@Transactional
 	public String update() {
-		this.bookmarkBC.update(getBean());
+		this.eventoBC.update(getBean());
 		return getPreviousView();
 	}
 	
 	@Override
 	protected void handleLoad() {
-		setBean(this.bookmarkBC.load(getId()));
+		setBean(this.eventoBC.load(getId()));
 	}
 
 }

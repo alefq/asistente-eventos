@@ -1,12 +1,32 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 	<h:form>
 		<p:menubar>
-			<p:submenu label="#{messages['menu.bookmark']}">
-				<p:menuitem value="#{messages['menu.menuitem.new']}" url="/bookmark_edit.jsf" />
-				<p:menuitem value="#{messages['menu.menuitem.list']}" url="/bookmark_list.jsf" />
+			<p:submenu label="#{messages['menu.persona']}">
+				<p:menuitem value="#{messages['menu.menuitem.new']}" url="/persona_edit.jsf"></p:menuitem>
+				<p:menuitem value="#{messages['menu.menuitem.list']}" url="/persona_list.jsf"></p:menuitem>
+			</p:submenu>
+
+			<p:submenu label="#{messages['menu.pais']}">
+				<p:menuitem value="#{messages['menu.menuitem.new']}" url="/pais_edit.jsf"></p:menuitem>
+				<p:menuitem value="#{messages['menu.menuitem.list']}" url="/pais_list.jsf"></p:menuitem>
+			</p:submenu>
+
+			<p:submenu label="#{messages['menu.institucion']}">
+				<p:menuitem value="#{messages['menu.menuitem.new']}" url="/institucion_edit.jsf"></p:menuitem>
+				<p:menuitem value="#{messages['menu.menuitem.list']}" url="/institucion_list.jsf"></p:menuitem>
+			</p:submenu>
+
+			<p:submenu label="#{messages['menu.evento']}">
+				<p:menuitem value="#{messages['menu.menuitem.new']}" url="/evento_edit.jsf"></p:menuitem>
+				<p:menuitem value="#{messages['menu.menuitem.list']}" url="/evento_list.jsf"></p:menuitem>
+			</p:submenu>
+
+			<p:submenu label="#{messages['menu.ciudad']}">
+				<p:menuitem value="#{messages['menu.menuitem.new']}" url="/ciudad_edit.jsf"></p:menuitem>
+				<p:menuitem value="#{messages['menu.menuitem.list']}" url="/ciudad_list.jsf"></p:menuitem>
 			</p:submenu>
 
 			<p:menuitem value="#{messages['menu.menuitem.quit']}" url="/index.jsp"/>

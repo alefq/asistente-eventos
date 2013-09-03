@@ -53,7 +53,6 @@ import javax.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.ticpy.tekoporu.junit.DemoiselleRunner;
 
 import py.gov.senatics.asistente.business.BookmarkBC;
@@ -74,7 +73,7 @@ public class BookmarkBCTest {
 
 	@Test
 	public void testLoad() {
-		bookmarkBC.load();
+		bookmarkBC.load(1l);
 		List<Bookmark> listaBookmarks = bookmarkBC.findAll();
 		assertNotNull(listaBookmarks);
 		assertEquals(10, listaBookmarks.size());

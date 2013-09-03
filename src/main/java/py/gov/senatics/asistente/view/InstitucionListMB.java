@@ -11,22 +11,22 @@ import org.ticpy.tekoporu.stereotype.ViewController;
 import org.ticpy.tekoporu.template.AbstractListPageBean;
 import org.ticpy.tekoporu.transaction.Transactional;
 
-import py.gov.senatics.asistente.business.BookmarkBC;
-import py.gov.senatics.asistente.domain.Bookmark;
+import py.gov.senatics.asistente.business.InstitucionBC;
+import py.gov.senatics.asistente.domain.Institucion;
 
 @ViewController
-@NextView("./bookmark_edit.jsf")
-@PreviousView("./bookmark_list.jsf")
-public class BookmarkListMB extends AbstractListPageBean<Bookmark, Long> {
+@NextView("./institucion_edit.jsf")
+@PreviousView("./institucion_list.jsf")
+public class InstitucionListMB extends AbstractListPageBean<Institucion, Long> {
 
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private BookmarkBC bookmarkBC;
+	private InstitucionBC institucionBC;
 	
 	@Override
-	protected List<Bookmark> handleResultList() {
-		return this.bookmarkBC.findAll();
+	protected List<Institucion> handleResultList() {
+		return this.institucionBC.findAll();
 	}
 	
 	@Transactional
@@ -36,7 +36,7 @@ public class BookmarkListMB extends AbstractListPageBean<Bookmark, Long> {
 			Long id = iter.next();
 			delete = getSelection().get(id);
 			if (delete) {
-				bookmarkBC.delete(id);
+				institucionBC.delete(id);
 				iter.remove();
 			}
 		}

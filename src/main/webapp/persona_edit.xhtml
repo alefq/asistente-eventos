@@ -1,0 +1,109 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+
+	<ui:define name="body">
+		<h:form prependId="false">
+
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton value="#{messages['button.save']}" action="#{personaEditMB.insert}"
+						rendered="#{!personaEditMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.save']}" action="#{personaEditMB.update}"
+						rendered="#{personaEditMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.delete']}" onclick="confirmation.show()"
+						rendered="#{personaEditMB.updateMode}" type="button" immediate="true" ajax="false" />
+					<p:confirmDialog message="#{messages['label.confirm.delete']}" showEffect="bounce" hideEffect="explode"
+						header="#{messages['label.dialog.delete']}" severity="alert" widgetVar="confirmation">
+						<h:commandButton value="#{messages['button.dialog.yes']}" action="#{personaEditMB.delete}" immediate="true"
+							ajax="false" />
+						<h:commandButton value="#{messages['button.dialog.no']}" onclick="confirmation.hide()" type="button" />
+					</p:confirmDialog>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<br />
+
+			<p:fieldset legend="#{messages['persona.label']}" toggleable="true" toggleSpeed="500">
+				<h:panelGrid id="fields" columns="3">
+					
+					<h:outputLabel value="#{messages['persona.label.personaId']}: " for="personaId" styleClass="text-input" />
+					<h:outputText id="personaId" value="#{personaEditMB.bean.personaId}" />
+					<p:message for="personaId" />
+					
+					<h:outputLabel value="#{messages['persona.label.apellido']}: " for="apellido" styleClass="text-input" />
+					<h:inputText id="apellido" value="#{personaEditMB.bean.apellido}"
+						title="#{messages['persona.alt.apellido']}" />
+					<p:message for="apellido" />
+					
+					<h:outputLabel value="#{messages['persona.label.cargo']}: " for="cargo" styleClass="text-input" />
+					<h:inputText id="cargo" value="#{personaEditMB.bean.cargo}"
+						title="#{messages['persona.alt.cargo']}" />
+					<p:message for="cargo" />
+					
+					<h:outputLabel value="#{messages['persona.label.documentoNumero']}: " for="documentoNumero" styleClass="text-input" />
+					<h:inputText id="documentoNumero" value="#{personaEditMB.bean.documentoNumero}"
+						title="#{messages['persona.alt.documentoNumero']}" />
+					<p:message for="documentoNumero" />
+					
+					<h:outputLabel value="#{messages['persona.label.documentoTipo']}: " for="documentoTipo" styleClass="text-input" />
+					<h:inputText id="documentoTipo" value="#{personaEditMB.bean.documentoTipo}"
+						title="#{messages['persona.alt.documentoTipo']}" />
+					<p:message for="documentoTipo" />
+					
+					<h:outputLabel value="#{messages['persona.label.emailInstitucional']}: " for="emailInstitucional" styleClass="text-input" />
+					<h:inputText id="emailInstitucional" value="#{personaEditMB.bean.emailInstitucional}"
+						title="#{messages['persona.alt.emailInstitucional']}" />
+					<p:message for="emailInstitucional" />
+					
+					<h:outputLabel value="#{messages['persona.label.emailPersonal']}: " for="emailPersonal" styleClass="text-input" />
+					<h:inputText id="emailPersonal" value="#{personaEditMB.bean.emailPersonal}"
+						title="#{messages['persona.alt.emailPersonal']}" />
+					<p:message for="emailPersonal" />
+					
+					<h:outputLabel value="#{messages['persona.label.estado']}: " for="estado" styleClass="text-input" />
+					<h:inputText id="estado" value="#{personaEditMB.bean.estado}"
+						title="#{messages['persona.alt.estado']}" />
+					<p:message for="estado" />
+					
+					<h:outputLabel value="#{messages['persona.label.institucionNoRegistrada']}: " for="institucionNoRegistrada" styleClass="text-input" />
+					<h:inputText id="institucionNoRegistrada" value="#{personaEditMB.bean.institucionNoRegistrada}"
+						title="#{messages['persona.alt.institucionNoRegistrada']}" />
+					<p:message for="institucionNoRegistrada" />
+					
+					<h:outputLabel value="#{messages['persona.label.nombre']}: " for="nombre" styleClass="text-input" />
+					<h:inputText id="nombre" value="#{personaEditMB.bean.nombre}"
+						title="#{messages['persona.alt.nombre']}" />
+					<p:message for="nombre" />
+					
+					<h:outputLabel value="#{messages['persona.label.telefonoCelular']}: " for="telefonoCelular" styleClass="text-input" />
+					<h:inputText id="telefonoCelular" value="#{personaEditMB.bean.telefonoCelular}"
+						title="#{messages['persona.alt.telefonoCelular']}" />
+					<p:message for="telefonoCelular" />
+					
+					<h:outputLabel value="#{messages['persona.label.telefonoInstitucional']}: " for="telefonoInstitucional" styleClass="text-input" />
+					<h:inputText id="telefonoInstitucional" value="#{personaEditMB.bean.telefonoInstitucional}"
+						title="#{messages['persona.alt.telefonoInstitucional']}" />
+					<p:message for="telefonoInstitucional" />
+					
+					<h:outputLabel value="#{messages['persona.label.tokenConfirmacion']}: " for="tokenConfirmacion" styleClass="text-input" />
+					<h:inputText id="tokenConfirmacion" value="#{personaEditMB.bean.tokenConfirmacion}"
+						title="#{messages['persona.alt.tokenConfirmacion']}" />
+					<p:message for="tokenConfirmacion" />
+					
+					<h:outputLabel value="#{messages['persona.label.tokenTimestamp']}: " for="tokenTimestamp" styleClass="text-input" />
+					<h:inputText id="tokenTimestamp" value="#{personaEditMB.bean.tokenTimestamp}"
+						title="#{messages['persona.alt.tokenTimestamp']}" />
+					<p:message for="tokenTimestamp" />
+					
+					<h:outputLabel value="#{messages['persona.label.institucion']}: " for="institucion" styleClass="text-input" />
+					<h:inputText id="institucion" value="#{personaEditMB.bean.institucion}"
+						title="#{messages['persona.alt.institucion']}" />
+					<p:message for="institucion" />
+					
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>

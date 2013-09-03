@@ -7,42 +7,42 @@ import org.ticpy.tekoporu.stereotype.ViewController;
 import org.ticpy.tekoporu.template.AbstractEditPageBean;
 import org.ticpy.tekoporu.transaction.Transactional;
 
-import py.gov.senatics.asistente.business.BookmarkBC;
-import py.gov.senatics.asistente.domain.Bookmark;
+import py.gov.senatics.asistente.business.PaisBC;
+import py.gov.senatics.asistente.domain.Pais;
 
 @ViewController
-@PreviousView("./bookmark_list.jsf")
-public class BookmarkEditMB extends AbstractEditPageBean<Bookmark, Long> {
+@PreviousView("./pais_list.jsf")
+public class PaisEditMB extends AbstractEditPageBean<Pais, Long> {
 
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private BookmarkBC bookmarkBC;
+	private PaisBC paisBC;
 	
 	@Override
 	@Transactional
 	public String delete() {
-		this.bookmarkBC.delete(getId());
+		this.paisBC.delete(getId());
 		return getPreviousView();
 	}
 	
 	@Override
 	@Transactional
 	public String insert() {
-		this.bookmarkBC.insert(getBean());
+		this.paisBC.insert(getBean());
 		return getPreviousView();
 	}
 	
 	@Override
 	@Transactional
 	public String update() {
-		this.bookmarkBC.update(getBean());
+		this.paisBC.update(getBean());
 		return getPreviousView();
 	}
 	
 	@Override
 	protected void handleLoad() {
-		setBean(this.bookmarkBC.load(getId()));
+		setBean(this.paisBC.load(getId()));
 	}
 
 }

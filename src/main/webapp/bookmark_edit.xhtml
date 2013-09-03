@@ -1,9 +1,11 @@
+
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
 	<ui:define name="body">
 		<h:form prependId="false">
+
 			<p:toolbar>
 				<p:toolbarGroup align="left">
 					<p:commandButton value="#{messages['button.save']}" action="#{bookmarkEditMB.insert}"
@@ -25,18 +27,22 @@
 
 			<p:fieldset legend="#{messages['bookmark.label']}" toggleable="true" toggleSpeed="500">
 				<h:panelGrid id="fields" columns="3">
+					
 					<h:outputLabel value="#{messages['bookmark.label.id']}: " for="id" styleClass="text-input" />
-					<h:outputText id="id" value="#{bookmarkEditMB.bean.id}" />
+					<h:inputText id="id" value="#{bookmarkEditMB.bean.id}"
+						title="#{messages['bookmark.alt.id']}" />
 					<p:message for="id" />
-
+					
 					<h:outputLabel value="#{messages['bookmark.label.description']}: " for="description" styleClass="text-input" />
 					<h:inputText id="description" value="#{bookmarkEditMB.bean.description}"
 						title="#{messages['bookmark.alt.description']}" />
 					<p:message for="description" />
-
+					
 					<h:outputLabel value="#{messages['bookmark.label.link']}: " for="link" styleClass="text-input" />
-					<h:inputText id="link" value="#{bookmarkEditMB.bean.link}" title="#{messages['bookmark.alt.link']}" />
+					<h:inputText id="link" value="#{bookmarkEditMB.bean.link}"
+						title="#{messages['bookmark.alt.link']}" />
 					<p:message for="link" />
+					
 				</h:panelGrid>
 			</p:fieldset>
 		</h:form>

@@ -1,0 +1,64 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+
+	<ui:define name="body">
+		<h:form prependId="false">
+
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton value="#{messages['button.save']}" action="#{institucionEditMB.insert}"
+						rendered="#{!institucionEditMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.save']}" action="#{institucionEditMB.update}"
+						rendered="#{institucionEditMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.delete']}" onclick="confirmation.show()"
+						rendered="#{institucionEditMB.updateMode}" type="button" immediate="true" ajax="false" />
+					<p:confirmDialog message="#{messages['label.confirm.delete']}" showEffect="bounce" hideEffect="explode"
+						header="#{messages['label.dialog.delete']}" severity="alert" widgetVar="confirmation">
+						<h:commandButton value="#{messages['button.dialog.yes']}" action="#{institucionEditMB.delete}" immediate="true"
+							ajax="false" />
+						<h:commandButton value="#{messages['button.dialog.no']}" onclick="confirmation.hide()" type="button" />
+					</p:confirmDialog>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<br />
+
+			<p:fieldset legend="#{messages['institucion.label']}" toggleable="true" toggleSpeed="500">
+				<h:panelGrid id="fields" columns="3">
+					
+					<h:outputLabel value="#{messages['institucion.label.institucionId']}: " for="institucionId" styleClass="text-input" />
+					<h:outputText id="institucionId" value="#{institucionEditMB.bean.institucionId}" />
+					<p:message for="institucionId" />
+					
+					<h:outputLabel value="#{messages['institucion.label.nombre']}: " for="nombre" styleClass="text-input" />
+					<h:inputText id="nombre" value="#{institucionEditMB.bean.nombre}"
+						title="#{messages['institucion.alt.nombre']}" />
+					<p:message for="nombre" />
+					
+					<h:outputLabel value="#{messages['institucion.label.observaciones']}: " for="observaciones" styleClass="text-input" />
+					<h:inputText id="observaciones" value="#{institucionEditMB.bean.observaciones}"
+						title="#{messages['institucion.alt.observaciones']}" />
+					<p:message for="observaciones" />
+					
+					<h:outputLabel value="#{messages['institucion.label.ruc']}: " for="ruc" styleClass="text-input" />
+					<h:inputText id="ruc" value="#{institucionEditMB.bean.ruc}"
+						title="#{messages['institucion.alt.ruc']}" />
+					<p:message for="ruc" />
+					
+					<h:outputLabel value="#{messages['institucion.label.tipo']}: " for="tipo" styleClass="text-input" />
+					<h:inputText id="tipo" value="#{institucionEditMB.bean.tipo}"
+						title="#{messages['institucion.alt.tipo']}" />
+					<p:message for="tipo" />
+					
+					<h:outputLabel value="#{messages['institucion.label.personas']}: " for="personas" styleClass="text-input" />
+					<h:inputText id="personas" value="#{institucionEditMB.bean.personas}"
+						title="#{messages['institucion.alt.personas']}" />
+					<p:message for="personas" />
+					
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>

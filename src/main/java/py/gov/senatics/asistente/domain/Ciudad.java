@@ -58,11 +58,11 @@ public class Ciudad implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public Pais getPai() {
+	public Pais getPais() {
 		return this.pais;
 	}
 
-	public void setPai(Pais pais) {
+	public void setPais(Pais pais) {
 		this.pais = pais;
 	}
 	

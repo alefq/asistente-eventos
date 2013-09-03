@@ -1,0 +1,124 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+
+	<ui:define name="body">
+		<h:form prependId="false">
+
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton value="#{messages['button.save']}" action="#{eventoEditMB.insert}"
+						rendered="#{!eventoEditMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.save']}" action="#{eventoEditMB.update}"
+						rendered="#{eventoEditMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.delete']}" onclick="confirmation.show()"
+						rendered="#{eventoEditMB.updateMode}" type="button" immediate="true" ajax="false" />
+					<p:confirmDialog message="#{messages['label.confirm.delete']}" showEffect="bounce" hideEffect="explode"
+						header="#{messages['label.dialog.delete']}" severity="alert" widgetVar="confirmation">
+						<h:commandButton value="#{messages['button.dialog.yes']}" action="#{eventoEditMB.delete}" immediate="true"
+							ajax="false" />
+						<h:commandButton value="#{messages['button.dialog.no']}" onclick="confirmation.hide()" type="button" />
+					</p:confirmDialog>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<br />
+
+			<p:fieldset legend="#{messages['evento.label']}" toggleable="true" toggleSpeed="500">
+				<h:panelGrid id="fields" columns="3">
+					
+					<h:outputLabel value="#{messages['evento.label.eventoId']}: " for="eventoId" styleClass="text-input" />
+					<h:outputText id="eventoId" value="#{eventoEditMB.bean.eventoId}" />
+					<p:message for="eventoId" />
+					
+					<h:outputLabel value="#{messages['evento.label.contactoEmail']}: " for="contactoEmail" styleClass="text-input" />
+					<h:inputText id="contactoEmail" value="#{eventoEditMB.bean.contactoEmail}"
+						title="#{messages['evento.alt.contactoEmail']}" />
+					<p:message for="contactoEmail" />
+					
+					<h:outputLabel value="#{messages['evento.label.contactoTelefono']}: " for="contactoTelefono" styleClass="text-input" />
+					<h:inputText id="contactoTelefono" value="#{eventoEditMB.bean.contactoTelefono}"
+						title="#{messages['evento.alt.contactoTelefono']}" />
+					<p:message for="contactoTelefono" />
+					
+					<h:outputLabel value="#{messages['evento.label.direccionLocal']}: " for="direccionLocal" styleClass="text-input" />
+					<h:inputText id="direccionLocal" value="#{eventoEditMB.bean.direccionLocal}"
+						title="#{messages['evento.alt.direccionLocal']}" />
+					<p:message for="direccionLocal" />
+					
+					<h:outputLabel value="#{messages['evento.label.fechaFin']}: " for="fechaFin" styleClass="text-input" />
+					<h:inputText id="fechaFin" value="#{eventoEditMB.bean.fechaFin}"
+						title="#{messages['evento.alt.fechaFin']}" />
+					<p:message for="fechaFin" />
+					
+					<h:outputLabel value="#{messages['evento.label.fechaInicio']}: " for="fechaInicio" styleClass="text-input" />
+					<h:inputText id="fechaInicio" value="#{eventoEditMB.bean.fechaInicio}"
+						title="#{messages['evento.alt.fechaInicio']}" />
+					<p:message for="fechaInicio" />
+					
+					<h:outputLabel value="#{messages['evento.label.nivelEntidadCodigo']}: " for="nivelEntidadCodigo" styleClass="text-input" />
+					<h:inputText id="nivelEntidadCodigo" value="#{eventoEditMB.bean.nivelEntidadCodigo}"
+						title="#{messages['evento.alt.nivelEntidadCodigo']}" />
+					<p:message for="nivelEntidadCodigo" />
+					
+					<h:outputLabel value="#{messages['evento.label.nombre']}: " for="nombre" styleClass="text-input" />
+					<h:inputText id="nombre" value="#{eventoEditMB.bean.nombre}"
+						title="#{messages['evento.alt.nombre']}" />
+					<p:message for="nombre" />
+					
+					<h:outputLabel value="#{messages['evento.label.nombreAbreviado']}: " for="nombreAbreviado" styleClass="text-input" />
+					<h:inputText id="nombreAbreviado" value="#{eventoEditMB.bean.nombreAbreviado}"
+						title="#{messages['evento.alt.nombreAbreviado']}" />
+					<p:message for="nombreAbreviado" />
+					
+					<h:outputLabel value="#{messages['evento.label.nombreEvento']}: " for="nombreEvento" styleClass="text-input" />
+					<h:inputText id="nombreEvento" value="#{eventoEditMB.bean.nombreEvento}"
+						title="#{messages['evento.alt.nombreEvento']}" />
+					<p:message for="nombreEvento" />
+					
+					<h:outputLabel value="#{messages['evento.label.nombreLocal']}: " for="nombreLocal" styleClass="text-input" />
+					<h:inputText id="nombreLocal" value="#{eventoEditMB.bean.nombreLocal}"
+						title="#{messages['evento.alt.nombreLocal']}" />
+					<p:message for="nombreLocal" />
+					
+					<h:outputLabel value="#{messages['evento.label.observacion']}: " for="observacion" styleClass="text-input" />
+					<h:inputText id="observacion" value="#{eventoEditMB.bean.observacion}"
+						title="#{messages['evento.alt.observacion']}" />
+					<p:message for="observacion" />
+					
+					<h:outputLabel value="#{messages['evento.label.observaciones']}: " for="observaciones" styleClass="text-input" />
+					<h:inputText id="observaciones" value="#{eventoEditMB.bean.observaciones}"
+						title="#{messages['evento.alt.observaciones']}" />
+					<p:message for="observaciones" />
+					
+					<h:outputLabel value="#{messages['evento.label.rutaLogoBanner']}: " for="rutaLogoBanner" styleClass="text-input" />
+					<h:inputText id="rutaLogoBanner" value="#{eventoEditMB.bean.rutaLogoBanner}"
+						title="#{messages['evento.alt.rutaLogoBanner']}" />
+					<p:message for="rutaLogoBanner" />
+					
+					<h:outputLabel value="#{messages['evento.label.rutaLogoCabecera']}: " for="rutaLogoCabecera" styleClass="text-input" />
+					<h:inputText id="rutaLogoCabecera" value="#{eventoEditMB.bean.rutaLogoCabecera}"
+						title="#{messages['evento.alt.rutaLogoCabecera']}" />
+					<p:message for="rutaLogoCabecera" />
+					
+					<h:outputLabel value="#{messages['evento.label.rutaLogoPie']}: " for="rutaLogoPie" styleClass="text-input" />
+					<h:inputText id="rutaLogoPie" value="#{eventoEditMB.bean.rutaLogoPie}"
+						title="#{messages['evento.alt.rutaLogoPie']}" />
+					<p:message for="rutaLogoPie" />
+					
+					<h:outputLabel value="#{messages['evento.label.urlGeolocalizacion']}: " for="urlGeolocalizacion" styleClass="text-input" />
+					<h:inputText id="urlGeolocalizacion" value="#{eventoEditMB.bean.urlGeolocalizacion}"
+						title="#{messages['evento.alt.urlGeolocalizacion']}" />
+					<p:message for="urlGeolocalizacion" />
+					
+					<h:outputLabel value="#{messages['evento.label.ciudad']}: " for="ciudad" styleClass="text-input" />
+					<h:inputText id="ciudad" value="#{eventoEditMB.bean.ciudad}"
+						title="#{messages['evento.alt.ciudad']}" />
+					<p:message for="ciudad" />
+					
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,64 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+
+	<ui:define name="body">
+		<h:form>
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton title="#{messages['button.new']}" image="ui-icon-document" action="#{ciudadListMB.getNextView}"
+						actionListener="#{ciudadListMB.clear}" ajax="false" />
+
+					<p:commandButton title="#{messages['button.delete']}" image="ui-icon-trash" onclick="confirmation.show()"
+						type="button" immediate="true" ajax="false" />
+
+					<p:confirmDialog message="#{messages['label.confirm.delete']}" showEffect="bounce" hideEffect="explode"
+						header="#{messages['label.dialog.alert']}!" severity="alert" widgetVar="confirmation">
+
+						<h:commandButton value="#{messages['button.dialog.yes']}" action="#{ciudadListMB.deleteSelection}"
+							actionListener="#{ciudadListMB.clear}" />
+						<h:commandButton value="#{messages['button.dialog.no']}" onclick="confirmation.hide()" type="button" />
+					</p:confirmDialog>
+				</p:toolbarGroup>
+			</p:toolbar>
+			<p:dataTable id="list" var="bean" value="#{ciudadListMB.resultList}">
+				<f:facet name="header">#{messages['ciudad.list.table.title']}</f:facet>
+				<p:column style="width:1%;">
+					<h:selectBooleanCheckbox value="#{ciudadListMB.selection[bean.ciudadId]}"></h:selectBooleanCheckbox>
+				</p:column>
+				
+				<p:column style="width:5%;" sortBy="#{bean.ciudadId}">
+					<f:facet name="header">#{messages['ciudad.label.ciudadId']}</f:facet>
+					<h:outputText value="#{bean.ciudadId}" />
+				</p:column>
+						
+				<p:column sortBy="#{bean.nombre}">
+					<f:facet name="header">#{messages['ciudad.label.nombre']}</f:facet>
+					<h:commandLink action="#{ciudadListMB.getNextView}" actionListener="#{ciudadListMB.clear}">
+						<h:outputText value="#{bean.nombre}" />
+						<f:param name="id" value="#{bean.ciudadId}" />
+					</h:commandLink>
+				</p:column>
+						
+				<p:column sortBy="#{bean.pais}">
+					<f:facet name="header">#{messages['ciudad.label.pais']}</f:facet>
+					<h:commandLink action="#{ciudadListMB.getNextView}" actionListener="#{ciudadListMB.clear}">
+						<h:outputText value="#{bean.pais}" />
+						<f:param name="id" value="#{bean.ciudadId}" />
+					</h:commandLink>
+				</p:column>
+						
+				<p:column sortBy="#{bean.eventos}">
+					<f:facet name="header">#{messages['ciudad.label.eventos']}</f:facet>
+					<h:commandLink action="#{ciudadListMB.getNextView}" actionListener="#{ciudadListMB.clear}">
+						<h:outputText value="#{bean.eventos}" />
+						<f:param name="id" value="#{bean.ciudadId}" />
+					</h:commandLink>
+				</p:column>
+						
+			</p:dataTable>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
