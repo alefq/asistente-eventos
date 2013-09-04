@@ -24,10 +24,10 @@ public class UsuarioBC extends DelegateCrud<Usuario, Long, UsuarioDAO> {
 	public void load() {
 		if (findAll().isEmpty()) {
 			insert(new Usuario(
-					"3dacc82be6917e9a8bb8005b7216fa7917d4a2dbf3e84f64accfec30721e2053",
+					"123456",
 					"user", "random_salt_value_user"));
 			insert(new Usuario(
-					"0006d7e657b49859fada03230a6b81872ea89646e9c72b9be4cabc51fbf6f7f3",
+					"admin1",
 					"admin", "random_salt_value_admin"));
 			System.out.println(usuarioDAO.findAll().get(0).getNombre() + " ");
 		}

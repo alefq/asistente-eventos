@@ -23,6 +23,7 @@
 		<properties>
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="false" />
+			<!-- Esto hace drop de las tablas y las crea de nuevo -->
 			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
 			<property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JBossTransactionManagerLookup" />
 		</properties>

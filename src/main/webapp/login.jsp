@@ -74,7 +74,7 @@
 									</td>
 								</tr>								
 								<tr>								
-									<td colspan="2"><font color="green" size="2">* Default User/Pass: "user / user", "admin / admin"</font></td>
+									<td colspan="2"><font color="green" size="2">* Default User/Pass: "user / 123456", "admin / admin1"</font></td>
 								</tr>
 							</tbody>  
 						</table>
