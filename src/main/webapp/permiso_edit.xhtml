@@ -1,0 +1,49 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+
+	<ui:define name="body">
+		<h:form prependId="false">
+
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton value="#{messages['button.save']}" action="#{permisoEditMB.insert}"
+						rendered="#{!permisoEditMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.save']}" action="#{permisoEditMB.update}"
+						rendered="#{permisoEditMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.delete']}" onclick="confirmation.show()"
+						rendered="#{permisoEditMB.updateMode}" type="button" immediate="true" ajax="false" />
+					<p:confirmDialog message="#{messages['label.confirm.delete']}" showEffect="bounce" hideEffect="explode"
+						header="#{messages['label.dialog.delete']}" severity="alert" widgetVar="confirmation">
+						<h:commandButton value="#{messages['button.dialog.yes']}" action="#{permisoEditMB.delete}" immediate="true"
+							ajax="false" />
+						<h:commandButton value="#{messages['button.dialog.no']}" onclick="confirmation.hide()" type="button" />
+					</p:confirmDialog>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<br />
+
+			<p:fieldset legend="#{messages['permiso.label']}" toggleable="true" toggleSpeed="500">
+				<h:panelGrid id="fields" columns="3">
+					
+					<h:outputLabel value="#{messages['permiso.label.permisoId']}: " for="permisoId" styleClass="text-input" />
+					<h:outputText id="permisoId" value="#{permisoEditMB.bean.permisoId}" />
+					<p:message for="permisoId" />
+					
+					<h:outputLabel value="#{messages['permiso.label.nombre']}: " for="nombre" styleClass="text-input" />
+					<h:inputText id="nombre" value="#{permisoEditMB.bean.nombre}"
+						title="#{messages['permiso.alt.nombre']}" />
+					<p:message for="nombre" />
+					
+					<h:outputLabel value="#{messages['permiso.label.rolPermisos']}: " for="rolPermisos" styleClass="text-input" />
+					<h:inputText id="rolPermisos" value="#{permisoEditMB.bean.rolPermisos}"
+						title="#{messages['permiso.alt.rolPermisos']}" />
+					<p:message for="rolPermisos" />
+					
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>

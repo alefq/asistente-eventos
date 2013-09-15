@@ -1,0 +1,56 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+
+	<ui:define name="body">
+		<h:form>
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton title="#{messages['button.new']}" image="ui-icon-document" action="#{permisoListMB.getNextView}"
+						actionListener="#{permisoListMB.clear}" ajax="false" />
+
+					<p:commandButton title="#{messages['button.delete']}" image="ui-icon-trash" onclick="confirmation.show()"
+						type="button" immediate="true" ajax="false" />
+
+					<p:confirmDialog message="#{messages['label.confirm.delete']}" showEffect="bounce" hideEffect="explode"
+						header="#{messages['label.dialog.alert']}!" severity="alert" widgetVar="confirmation">
+
+						<h:commandButton value="#{messages['button.dialog.yes']}" action="#{permisoListMB.deleteSelection}"
+							actionListener="#{permisoListMB.clear}" />
+						<h:commandButton value="#{messages['button.dialog.no']}" onclick="confirmation.hide()" type="button" />
+					</p:confirmDialog>
+				</p:toolbarGroup>
+			</p:toolbar>
+			<p:dataTable id="list" var="bean" value="#{permisoListMB.resultList}">
+				<f:facet name="header">#{messages['permiso.list.table.title']}</f:facet>
+				<p:column style="width:1%;">
+					<h:selectBooleanCheckbox value="#{permisoListMB.selection[bean.permisoId]}"></h:selectBooleanCheckbox>
+				</p:column>
+				
+				<p:column style="width:5%;" sortBy="#{bean.permisoId}">
+					<f:facet name="header">#{messages['permiso.label.permisoId']}</f:facet>
+					<h:outputText value="#{bean.permisoId}" />
+				</p:column>
+						
+				<p:column sortBy="#{bean.nombre}">
+					<f:facet name="header">#{messages['permiso.label.nombre']}</f:facet>
+					<h:commandLink action="#{permisoListMB.getNextView}" actionListener="#{permisoListMB.clear}">
+						<h:outputText value="#{bean.nombre}" />
+						<f:param name="id" value="#{bean.permisoId}" />
+					</h:commandLink>
+				</p:column>
+						
+				<p:column sortBy="#{bean.rolPermisos}">
+					<f:facet name="header">#{messages['permiso.label.rolPermisos']}</f:facet>
+					<h:commandLink action="#{permisoListMB.getNextView}" actionListener="#{permisoListMB.clear}">
+						<h:outputText value="#{bean.rolPermisos}" />
+						<f:param name="id" value="#{bean.permisoId}" />
+					</h:commandLink>
+				</p:column>
+						
+			</p:dataTable>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

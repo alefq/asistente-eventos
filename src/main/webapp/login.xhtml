@@ -1,0 +1,53 @@
+<html xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" 
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<title>Login</title>
+</h:head>
+
+	<f:view contentType="text/html" locale="#currentLocale" />
+	
+	<h:body style="background-color:#f1f1f1" >
+	<h:form name="form">
+		<table style="width: 100%">
+			<tr>
+				<td height="70" width="100%" align="left"></td>
+			</tr>
+			
+			<tr>
+				<td height="20" colspan="2">
+						 <p:panel id="panel" style="margin-bottom:10px;"> 
+		  			 		<p style="text-align:center;">
+								<font color="#555555">LOGIN</font>
+							</p>
+		  			 	</p:panel>
+				</td>
+			</tr>
+			
+			<tr valign="top">
+				<td height="200" colspan="2" align="center">
+		  				<p:focus context="panelgrid"/>
+						<h:panelGrid  style="background-color:#f1f1f1" id="panelgrid" cellpadding="5" rows="3" columns="2">
+						
+							<h:outputLabel for="username" value="Username:" styleClass="text-input" />
+							<h:inputText value="#{credential.username}" id="username" required="true" label="username" styleClass="text-input"/>
+			
+							<h:outputLabel for="password" value="Password:" styleClass="text-input" />
+							<h:inputSecret value="#{credential.password}"  id="password" required="true" label="password" styleClass="text-input"/>
+			
+							<h:outputText value="Usuarios default: " style="{font-size: 9px}" />
+							<h:outputText value="admin/admin1   user/123456" style="{font-size: 9px}"  />
+			
+							<f:facet name="footer">
+								<p:commandButton id="loginButton" value="Accept" action="#{securityContext.login}" style="align:right;" />
+							</f:facet>
+						</h:panelGrid>
+					
+				</td>
+			</tr>
+			</table>
+		</h:form>
+	
+	<link type="text/css" rel="stylesheet" href="css/aristo/skin.css" />
+	</h:body>
+</html>
