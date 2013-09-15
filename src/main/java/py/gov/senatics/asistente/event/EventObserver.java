@@ -4,12 +4,10 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 import javax.ejb.AccessTimeout;
 import javax.ejb.Stateless;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-
 import org.jboss.weld.Container;
 import org.jboss.weld.context.bound.BoundRequestContext;
 import org.slf4j.Logger;
@@ -29,6 +27,7 @@ public class EventObserver implements Serializable {
 
 	@AccessTimeout(value = 1, unit = TimeUnit.MINUTES)
 	public void observe(@Observes TestEvent event) {
+
 		initContext();
 		if ("five".equals(event.getMessage())) {
 			logger.info("¡Evento recibido!");

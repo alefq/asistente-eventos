@@ -1,9 +1,7 @@
 package py.gov.senatics.asistente.action;
 
 import java.io.Serializable;
-
 import javax.inject.Inject;
-
 import org.apache.commons.configuration.ConfigurationException;
 import org.slf4j.Logger;
 import org.ticpy.tekoporu.annotation.Name;
@@ -28,6 +26,7 @@ public class DemoScheduler implements ISchedulerAction, Serializable {
 
 	@Startup
 	public void initialize() {
+
 		SchedulerActionManager scheduler;
 		try {
 			scheduler = new SchedulerActionManager();
@@ -38,9 +37,11 @@ public class DemoScheduler implements ISchedulerAction, Serializable {
 		}
 	}
 
+	@Override
 	public void execute() {
+
 		System.out.println(hashCode());
-		if(log== null)
+		if (log == null)
 			log = Beans.getReference(Logger.class);
 		log.debug("Ejecutando tarea programada...");
 	}

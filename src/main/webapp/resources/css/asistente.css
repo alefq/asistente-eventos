@@ -1,0 +1,5 @@
+.breakWord {
+    font-weight:bold; 
+    width:30em;
+    word-wrap: break-word;
+}

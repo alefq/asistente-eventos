@@ -2,17 +2,14 @@ package py.gov.senatics.asistente.view;
 
 import java.util.Iterator;
 import java.util.List;
-
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
-
 import org.primefaces.model.LazyDataModel;
 import org.ticpy.tekoporu.annotation.NextView;
 import org.ticpy.tekoporu.annotation.PreviousView;
 import org.ticpy.tekoporu.stereotype.ViewController;
 import org.ticpy.tekoporu.template.AbstractListPageBean;
 import org.ticpy.tekoporu.transaction.Transactional;
-
 import py.gov.senatics.asistente.business.UsuarioBC;
 import py.gov.senatics.asistente.domain.Usuario;
 
@@ -30,14 +27,17 @@ public class UsuarioListMB extends AbstractListPageBean<Usuario, Long> {
 	private LazyDataModel<Usuario> model;
 
 	public UsuarioBC getUsuarioBC() {
+
 		return usuarioBC;
 	}
 
 	public LazyDataModel<Usuario> getModel() {
+
 		return model;
 	}
 
 	public int getPageSize() {
+
 		return pageSize;
 	}
 
@@ -45,11 +45,13 @@ public class UsuarioListMB extends AbstractListPageBean<Usuario, Long> {
 
 	@Override
 	protected List<Usuario> handleResultList() {
+
 		return this.usuarioBC.findAll();
 	}
 
 	@Transactional
 	public String deleteSelection() {
+
 		boolean delete;
 		for (Iterator<Long> iter = getSelection().keySet().iterator(); iter
 				.hasNext();) {

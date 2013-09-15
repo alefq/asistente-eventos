@@ -5,9 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
 import javax.inject.Inject;
-
 import org.slf4j.Logger;
 
 public class FechaUtil {
@@ -18,6 +16,7 @@ public class FechaUtil {
 	public static Date desplazarFecha(java.util.Date pFecha, Integer segundos,
 			Integer minutos, Integer horas, Integer pDias, Integer pMeses,
 			Integer pAnos, Boolean atrasar) {
+
 		return desplazarFecha(pFecha, 0, segundos, minutos, horas, pDias,
 				pMeses, pAnos, atrasar);
 	}
@@ -26,6 +25,7 @@ public class FechaUtil {
 			Integer milisegundos, Integer segundos, Integer minutos,
 			Integer horas, Integer pDias, Integer pMeses, Integer pAnos,
 			Boolean atrasar) {
+
 		Calendar c1 = Calendar.getInstance();
 		c1.setTime(pFecha);
 		int factorAtraso = atrasar ? -1 : 1;
@@ -44,12 +44,14 @@ public class FechaUtil {
 				: 0);
 		c1.add(Calendar.MINUTE, minutos != null ? (minutos * factorAtraso) : 0);
 		c1.add(Calendar.HOUR, horas != null ? (horas * factorAtraso) : 0);
-		c1.add(Calendar.MILLISECOND, milisegundos != null ? (milisegundos * factorAtraso) : 0);
+		c1.add(Calendar.MILLISECOND,
+				milisegundos != null ? (milisegundos * factorAtraso) : 0);
 
 		return new Date(c1.getTimeInMillis());
 	}
 
 	public static Date parseFecha(String fechaString) {
+
 		Date fecha = null;
 		DateFormat parseadorFecha = new SimpleDateFormat("ddMMyyyy HH:mm");
 

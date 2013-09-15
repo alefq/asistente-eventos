@@ -4,8 +4,10 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
 	<ui:define name="body">
-		<h:form prependId="false">
-
+		<h:form id="form">
+			<p:growl id="growl" showDetail="true"/>
+			<br />
+			
 			<p:toolbar>
 				<p:toolbarGroup align="left">
 					<p:commandButton value="#{messages['button.save']}" action="#{eventoEditMB.insert}"
@@ -25,98 +27,96 @@
 
 			<br />
 
-			<p:fieldset legend="#{messages['evento.label']}" toggleable="true" toggleSpeed="500">
-				<h:panelGrid id="fields" columns="3">
+			<p:fieldset legend="#{messages['evento.label']}" toggleable="false" toggleSpeed="500">
+				<h:panelGrid columns="2" styleClass="grid">
+						
+					<h:outputText value="#{messages['asistente.label.nombreEntidadOrganizadora']}: " for="nombreEO" styleClass="text-input"/>
+			        <p:inputText id="nombreEO" value="#{eventoEditMB.bean.nombre}"
+						title="#{messages['asistente.alt.nombreEntidadOrganizadora']}" size="50" maxlength="255"/>
+						
+					<h:outputText value="#{messages['asistente.label.abreviaturaEntidadOrganizadora']}: " for="abrevEO" styleClass="text-input"/>
+			        <p:inputText id="abrevEO" value="#{eventoEditMB.bean.nombreAbreviado}"
+						title="#{messages['asistente.alt.abreviaturaEntidadOrganizadora']}" size="50" maxlength="255"/>
+						
+					<h:outputText value="#{messages['asistente.label.nombreTituloEvento']}: " for="nombreEvento" styleClass="text-input"/>
+			        <p:inputText id="nombreEvento" value="#{eventoEditMB.bean.nombreEvento}"
+						title="#{messages['asistente.alt.nombreTituloEvento']}" size="50" maxlength="255"/>
+						
+					<h:outputText value="#{messages['asistente.label.fechaInicioEvento']}: " for="inicioEvento" />
+			        <p:calendar id="inicioEvento" value="#{eventoEditMB.fechaInicio}" showOn="button" 
+						title="#{messages['asistente.alt.fechaInicioEvento']}" pattern="dd/MM/yyyy" size="45"
+						required="true" requiredMessage="#{messages['asistente.requerido.fechaInicioEvento']}">
+						 <p:ajax event="dateSelect"
+						  partialSubmit="true" process="@this,inicioEvento" update=":form:finEvento" />
+					</p:calendar>
 					
-					<h:outputLabel value="#{messages['evento.label.eventoId']}: " for="eventoId" styleClass="text-input" />
-					<h:outputText id="eventoId" value="#{eventoEditMB.bean.eventoId}" />
-					<p:message for="eventoId" />
+					<h:outputText value="#{messages['asistente.label.fechaFinEvento']}: " for="finEvento" />
+			        <p:calendar id="finEvento" value="#{eventoEditMB.fechaFin}" showOn="button"
+						title="#{messages['asistente.alt.fechaFinEvento']}" pattern="dd/MM/yyyy" size="45"
+						required="true" requiredMessage="#{messages['asistente.requerido.fechaFinEvento']}" 
+						mindate="#{eventoEditMB.fechaInicio}" />
+						
+					<h:outputText value="#{messages['asistente.label.pais']}: " for="pais"/>
+			        <p:selectOneMenu id="pais" value="#{eventoEditMB.pais}"
+			        	converterMessage="#{messages['asistente.error.pais']}" required="true"
+			        	requiredMessage="#{messages['asistente.requerido.pais']}">
+			        	<f:converter binding="#{paisConverter}"/>
+			            <f:selectItem itemLabel="#{messages['asistente.seleccionar.pais']}" itemValue="#{null}" />
+			            <f:selectItems value="#{eventoEditMB.paises}" var="p" itemLabel="#{p.nombre}" itemValue="#{p}"/>
+			            <p:ajax process=":form:pais" event="change" listener="#{eventoEditMB.updateCities}" 
+	            		update=":form:ciudad :form:growl" />
+			        </p:selectOneMenu>
+						
+					<h:outputText value="#{messages['asistente.label.ciudad']}: " for="ciudad"/>
+			        <p:selectOneMenu id="ciudad" value="#{eventoEditMB.bean.ciudad}"
+			        	converterMessage="#{messages['asistente.error.ciudad']}" required="true" 
+			        	requiredMessage="#{messages['asistente.requerido.ciudad']}">
+			            <f:converter binding="#{ciudadConverter}"/>	
+			            <f:selectItem itemLabel="#{messages['asistente.seleccionar.ciudad']}" itemValue="#{null}" />
+			            <f:selectItems value="#{eventoEditMB.ciudades}" var="c" itemLabel="#{c.nombre}" itemValue="#{c}"/>
+			        </p:selectOneMenu>
 					
-					<h:outputLabel value="#{messages['evento.label.contactoEmail']}: " for="contactoEmail" styleClass="text-input" />
-					<h:inputText id="contactoEmail" value="#{eventoEditMB.bean.contactoEmail}"
-						title="#{messages['evento.alt.contactoEmail']}" />
-					<p:message for="contactoEmail" />
-					
-					<h:outputLabel value="#{messages['evento.label.contactoTelefono']}: " for="contactoTelefono" styleClass="text-input" />
-					<h:inputText id="contactoTelefono" value="#{eventoEditMB.bean.contactoTelefono}"
-						title="#{messages['evento.alt.contactoTelefono']}" />
-					<p:message for="contactoTelefono" />
-					
-					<h:outputLabel value="#{messages['evento.label.direccionLocal']}: " for="direccionLocal" styleClass="text-input" />
-					<h:inputText id="direccionLocal" value="#{eventoEditMB.bean.direccionLocal}"
-						title="#{messages['evento.alt.direccionLocal']}" />
-					<p:message for="direccionLocal" />
-					
-					<h:outputLabel value="#{messages['evento.label.fechaFin']}: " for="fechaFin" styleClass="text-input" />
-					<h:inputText id="fechaFin" value="#{eventoEditMB.bean.fechaFin}"
-						title="#{messages['evento.alt.fechaFin']}" />
-					<p:message for="fechaFin" />
-					
-					<h:outputLabel value="#{messages['evento.label.fechaInicio']}: " for="fechaInicio" styleClass="text-input" />
-					<h:inputText id="fechaInicio" value="#{eventoEditMB.bean.fechaInicio}"
-						title="#{messages['evento.alt.fechaInicio']}" />
-					<p:message for="fechaInicio" />
-					
-					<h:outputLabel value="#{messages['evento.label.nivelEntidadCodigo']}: " for="nivelEntidadCodigo" styleClass="text-input" />
-					<h:inputText id="nivelEntidadCodigo" value="#{eventoEditMB.bean.nivelEntidadCodigo}"
-						title="#{messages['evento.alt.nivelEntidadCodigo']}" />
-					<p:message for="nivelEntidadCodigo" />
-					
-					<h:outputLabel value="#{messages['evento.label.nombre']}: " for="nombre" styleClass="text-input" />
-					<h:inputText id="nombre" value="#{eventoEditMB.bean.nombre}"
-						title="#{messages['evento.alt.nombre']}" />
-					<p:message for="nombre" />
-					
-					<h:outputLabel value="#{messages['evento.label.nombreAbreviado']}: " for="nombreAbreviado" styleClass="text-input" />
-					<h:inputText id="nombreAbreviado" value="#{eventoEditMB.bean.nombreAbreviado}"
-						title="#{messages['evento.alt.nombreAbreviado']}" />
-					<p:message for="nombreAbreviado" />
-					
-					<h:outputLabel value="#{messages['evento.label.nombreEvento']}: " for="nombreEvento" styleClass="text-input" />
-					<h:inputText id="nombreEvento" value="#{eventoEditMB.bean.nombreEvento}"
-						title="#{messages['evento.alt.nombreEvento']}" />
-					<p:message for="nombreEvento" />
-					
-					<h:outputLabel value="#{messages['evento.label.nombreLocal']}: " for="nombreLocal" styleClass="text-input" />
-					<h:inputText id="nombreLocal" value="#{eventoEditMB.bean.nombreLocal}"
-						title="#{messages['evento.alt.nombreLocal']}" />
-					<p:message for="nombreLocal" />
-					
-					<h:outputLabel value="#{messages['evento.label.observacion']}: " for="observacion" styleClass="text-input" />
-					<h:inputText id="observacion" value="#{eventoEditMB.bean.observacion}"
-						title="#{messages['evento.alt.observacion']}" />
-					<p:message for="observacion" />
-					
-					<h:outputLabel value="#{messages['evento.label.observaciones']}: " for="observaciones" styleClass="text-input" />
-					<h:inputText id="observaciones" value="#{eventoEditMB.bean.observaciones}"
-						title="#{messages['evento.alt.observaciones']}" />
-					<p:message for="observaciones" />
-					
-					<h:outputLabel value="#{messages['evento.label.rutaLogoBanner']}: " for="rutaLogoBanner" styleClass="text-input" />
-					<h:inputText id="rutaLogoBanner" value="#{eventoEditMB.bean.rutaLogoBanner}"
-						title="#{messages['evento.alt.rutaLogoBanner']}" />
-					<p:message for="rutaLogoBanner" />
-					
-					<h:outputLabel value="#{messages['evento.label.rutaLogoCabecera']}: " for="rutaLogoCabecera" styleClass="text-input" />
-					<h:inputText id="rutaLogoCabecera" value="#{eventoEditMB.bean.rutaLogoCabecera}"
-						title="#{messages['evento.alt.rutaLogoCabecera']}" />
-					<p:message for="rutaLogoCabecera" />
-					
-					<h:outputLabel value="#{messages['evento.label.rutaLogoPie']}: " for="rutaLogoPie" styleClass="text-input" />
-					<h:inputText id="rutaLogoPie" value="#{eventoEditMB.bean.rutaLogoPie}"
-						title="#{messages['evento.alt.rutaLogoPie']}" />
-					<p:message for="rutaLogoPie" />
-					
-					<h:outputLabel value="#{messages['evento.label.urlGeolocalizacion']}: " for="urlGeolocalizacion" styleClass="text-input" />
-					<h:inputText id="urlGeolocalizacion" value="#{eventoEditMB.bean.urlGeolocalizacion}"
-						title="#{messages['evento.alt.urlGeolocalizacion']}" />
-					<p:message for="urlGeolocalizacion" />
-					
-					<h:outputLabel value="#{messages['evento.label.ciudad']}: " for="ciudad" styleClass="text-input" />
-					<h:inputText id="ciudad" value="#{eventoEditMB.bean.ciudad}"
-						title="#{messages['evento.alt.ciudad']}" />
-					<p:message for="ciudad" />
-					
+					<h:outputText value="#{messages['asistente.label.nombreLocal']}: " for="nombreLocal" styleClass="text-input"/>
+			        <p:inputText id="nombreLocal" value="#{eventoEditMB.bean.nombreLocal}"
+						title="#{messages['asistente.alt.nombreLocal']}" size="50" maxlength="255"/>
+						
+					<h:outputText value="#{messages['asistente.label.direccionLocal']}: " for="direccionLocal" styleClass="text-input"/>
+			        <p:inputText id="direccionLocal" value="#{eventoEditMB.bean.direccionLocal}"
+						title="#{messages['asistente.alt.direccionLocal']}" size="50" maxlength="255"/>
+						
+					<h:outputText value="#{messages['asistente.label.uriGeolocalizacion']}: " for="uri" styleClass="text-input"/>
+			        <p:inputText id="uri" value="#{eventoEditMB.bean.urlGeolocalizacion}"
+						title="#{messages['asistente.alt.uriGeolocalizacion']}" size="50" maxlength="255"/>
+						
+					<h:outputText value="#{messages['asistente.label.nroTelefono']}: " for="nroTelefono" styleClass="text-input"/>
+			        <p:inputText id="nroTelefono" value="#{eventoEditMB.bean.contactoTelefono}"
+						title="#{messages['asistente.alt.nroTelefono']}" size="50" maxlength="255"/>
+						
+					<h:outputText value="#{messages['asistente.label.email']}: " for="email" styleClass="text-input"/>
+			        <p:inputText id="email" value="#{eventoEditMB.bean.contactoEmail}"
+						title="#{messages['asistente.alt.email']}" size="50" maxlength="255"/>
+						
+					<h:outputText value="#{messages['asistente.label.logoBanner']}: " for="logoBanner"/>
+					<p:fileUpload id="logoBanner" fileUploadListener="#{eventoEditMB.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                  		update=":form:growl" auto="true" sizeLimit="#{eventoEditMB.logoMaxFileSize}" fileLimit="1" allowTypes="/(\.|\/)(jpe?g|png)$/" >
+                  		<f:attribute name="type" value="banner" />
+                  	</p:fileUpload>
+                  	
+                  	<h:outputText value="#{messages['asistente.label.logoCabecera']}: " for="logoHeader"/>
+					<p:fileUpload id="logoHeader" fileUploadListener="#{eventoEditMB.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                  		update=":form:growl" auto="true" sizeLimit="#{eventoEditMB.logoMaxFileSize}" fileLimit="1" allowTypes="/(\.|\/)(jpe?g|png)$/" >
+                  		<f:attribute name="type" value="header" />
+                  	</p:fileUpload>
+                  	
+                  	<h:outputText value="#{messages['asistente.label.logoPie']}: " for="logoFooter"/>
+					<p:fileUpload id="logoFooter" fileUploadListener="#{eventoEditMB.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                  		update=":form:growl" auto="true" sizeLimit="#{eventoEditMB.logoMaxFileSize}" fileLimit="1" allowTypes="/(\.|\/)(jpe?g|png)$/" >
+                  		<f:attribute name="type" value="footer" />
+                  	</p:fileUpload>
+                  	
+                  	<h:outputText value="#{messages['asistente.label.observaciones']}: " for="obs"/>
+                  	<p:inputTextarea id="obs" rows="6" cols="55" value="#{eventoEditMB.bean.observacion}" />
+				
 				</h:panelGrid>
 			</p:fieldset>
 		</h:form>

@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
-
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -15,9 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
-
 import py.gov.senatics.asistente.business.UsuarioBC;
 import py.gov.senatics.asistente.domain.Usuario;
 
@@ -42,6 +39,7 @@ public class DownloadServlet extends HttpServlet implements Serializable {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+
 		// TODO Auto-generated method stub
 		doPost(request, response);
 	}
@@ -51,8 +49,10 @@ public class DownloadServlet extends HttpServlet implements Serializable {
 	 * 
 	 * @return
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+
 		/* Obtenemos el ID para la descarga desde el parámetro del URL */
 		long fileId = Long.parseLong(request.getParameter("fileId"));
 
@@ -111,6 +111,7 @@ public class DownloadServlet extends HttpServlet implements Serializable {
 	}
 
 	private String getNombreSugerido(Long value) {
+
 		/*
 		 * Implementar aquí la lógica que traiga la ruta sugerida para el nombre
 		 * del archivo a descargar
@@ -119,6 +120,7 @@ public class DownloadServlet extends HttpServlet implements Serializable {
 	}
 
 	private String getFilePathById(Long value) {
+
 		/*
 		 * Implementar aquí la lógica que traiga la ruta del archivo a
 		 * descargar, se coloca sólo a modo de ejemplo cómo se recuperaría un

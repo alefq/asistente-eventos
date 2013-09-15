@@ -2,16 +2,13 @@ package py.gov.senatics.asistente.view;
 
 import java.util.Iterator;
 import java.util.List;
-
 import javax.inject.Inject;
-
 import org.primefaces.model.LazyDataModel;
 import org.ticpy.tekoporu.annotation.NextView;
 import org.ticpy.tekoporu.annotation.PreviousView;
 import org.ticpy.tekoporu.stereotype.ViewController;
 import org.ticpy.tekoporu.template.AbstractListPageBean;
 import org.ticpy.tekoporu.transaction.Transactional;
-
 import py.gov.senatics.asistente.business.PermisoBC;
 import py.gov.senatics.asistente.domain.Permiso;
 
@@ -30,11 +27,13 @@ public class PermisoListMB extends AbstractListPageBean<Permiso, Long> {
 
 	@Override
 	protected List<Permiso> handleResultList() {
+
 		return this.permisoBC.findAll();
 	}
 
 	@Transactional
 	public String deleteSelection() {
+
 		boolean delete;
 		for (Iterator<Long> iter = getSelection().keySet().iterator(); iter
 				.hasNext();) {
@@ -49,11 +48,13 @@ public class PermisoListMB extends AbstractListPageBean<Permiso, Long> {
 	}
 
 	public LazyDataModel<Permiso> getModel() {
+
 		return model;
 	}
 
 	public int getPageSize() {
+
 		return pageSize;
 	}
-		
+
 }

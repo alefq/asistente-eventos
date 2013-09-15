@@ -1,7 +1,6 @@
 package py.gov.senatics.asistente.domain;
 
 import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +16,7 @@ import javax.persistence.SequenceGenerator;
  */
 @Entity
 public class Usuario implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -43,9 +43,11 @@ public class Usuario implements Serializable {
 	private Persona persona;
 
 	public Usuario() {
+
 	}
 
 	public Usuario(String contrasenha, String nombre, String salt) {
+
 		super();
 		this.contrasenha = contrasenha;
 		this.nombre = nombre;
@@ -53,58 +55,72 @@ public class Usuario implements Serializable {
 	}
 
 	public long getUsuarioId() {
+
 		return this.usuarioId;
 	}
 
 	public void setUsuarioId(long usuarioId) {
+
 		this.usuarioId = usuarioId;
 	}
 
 	public String getClavePrivada() {
+
 		return this.clavePrivada;
 	}
 
 	public void setClavePrivada(String clavePrivada) {
+
 		this.clavePrivada = clavePrivada;
 	}
 
 	public String getClavePublica() {
+
 		return this.clavePublica;
 	}
 
 	public void setClavePublica(String clavePublica) {
+
 		this.clavePublica = clavePublica;
 	}
 
 	public String getContrasenha() {
+
 		return this.contrasenha;
 	}
 
 	public void setContrasenha(String contrasenha) {
+
 		this.contrasenha = contrasenha;
 	}
 
 	public String getNombre() {
+
 		return this.nombre;
 	}
 
 	public void setNombre(String nombre) {
+
 		this.nombre = nombre;
 	}
 
 	public String getSalt() {
+
 		return this.salt;
 	}
 
 	public void setSalt(String salt) {
+
 		this.salt = salt;
 	}
 
 	public Persona getPersona() {
+
 		return this.persona;
 	}
 
 	public void setPersona(Persona persona) {
+
 		this.persona = persona;
 	}
 

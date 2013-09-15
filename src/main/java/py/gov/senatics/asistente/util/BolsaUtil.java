@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import javax.faces.context.ExternalContext;
@@ -37,13 +36,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.log4j.Level;
 import org.hibernate.annotations.Formula;
 import org.slf4j.Logger;
-
 import py.gov.senatics.asistente.exception.RegistroException;
 
 public class BolsaUtil {
@@ -61,8 +58,8 @@ public class BolsaUtil {
 	private static final String ENCODING = "UTF8";
 	// Esto debería guardarse en algún properties para cambiar periódicamente:
 	// 16 bytes
-	private static byte[] defaultKey = new byte[] { 32, 11, 12, 42, 64, 5, 7, 8, 9,
-			99, 98, 97, 96, 95, 94, 93 };
+	private static byte[] defaultKey = new byte[] { 32, 11, 12, 42, 64, 5, 7,
+			8, 9, 99, 98, 97, 96, 95, 94, 93 };
 	// Estos hay que mantener sincronizados con el UIParam
 	private static final Map<String, byte[]> emailsKeys = new HashMap<String, byte[]>();
 	private static final Map<String, Boolean> classFieldTransient = new HashMap<String, Boolean>();
@@ -71,14 +68,18 @@ public class BolsaUtil {
 	static {
 		reverseOrdersMap.put(SelectItem.class, new Comparator<SelectItem>() {
 
+			@Override
 			public int compare(SelectItem o1, SelectItem o2) {
+
 				return o1.getLabel().compareTo(o2.getLabel()) * -1;
 			}
 		});
 
 		ascendingOrdersMap.put(SelectItem.class, new Comparator<SelectItem>() {
 
+			@Override
 			public int compare(SelectItem o1, SelectItem o2) {
+
 				return o1.getLabel().compareTo(o2.getLabel());
 			}
 		});
@@ -93,9 +94,10 @@ public class BolsaUtil {
 	}
 
 	public static Integer getAnioActual() {
+
 		SimpleDateFormat anioFormat = new SimpleDateFormat("yyyy");
-		return Integer.parseInt(anioFormat.format(GregorianCalendar
-				.getInstance().getTime()));
+		return Integer.parseInt(anioFormat.format(Calendar.getInstance()
+				.getTime()));
 	}
 
 	/**
@@ -105,10 +107,12 @@ public class BolsaUtil {
 	 * @return
 	 */
 	public static boolean isBlank(String s) {
+
 		return StringUtils.isBlank(s);
 	}
 
 	public static boolean isBlank(Object o) {
+
 		boolean ret = true;
 		if (o != null) {
 			ret = StringUtils.isBlank(o.toString());
@@ -119,6 +123,7 @@ public class BolsaUtil {
 
 	public static boolean equalsIgnoraMayusculaAcentos(String cadena1,
 			String cadena2) {
+
 		boolean ret = false;
 		Collator comparador = Collator.getInstance();
 		comparador.setStrength(Collator.PRIMARY);
@@ -134,6 +139,7 @@ public class BolsaUtil {
 	 * @return
 	 */
 	public static Comparator<?> getReverseOrder(Class<?> clazz) {
+
 		return reverseOrdersMap.get(clazz);
 	}
 
@@ -145,10 +151,12 @@ public class BolsaUtil {
 	 * @return
 	 */
 	public static Comparator<?> getAscendingOrder(Class<?> clazz) {
+
 		return ascendingOrdersMap.get(clazz);
 	}
-	
+
 	public static boolean isTransient(Class<?> clazz, String property) {
+
 		boolean ret = false;
 		String key = clazz.getName() + "." + property;
 		Boolean isTrans = classFieldTransient.get(key);
@@ -169,7 +177,7 @@ public class BolsaUtil {
 				ret = isTrans;
 		} catch (NoSuchFieldException e) {
 
-			ret = isTransient((Class<?>) clazz.getSuperclass(), property);
+			ret = isTransient(clazz.getSuperclass(), property);
 
 			classFieldTransient.put(key, ret);
 		}
@@ -179,6 +187,7 @@ public class BolsaUtil {
 	}
 
 	public static boolean isFormula(Class<?> clazz, String property) {
+
 		boolean ret = false;
 		String key = clazz.getName() + "." + property;
 		Boolean isForm = classFieldFormula.get(key);
@@ -199,7 +208,7 @@ public class BolsaUtil {
 				ret = isForm;
 		} catch (NoSuchFieldException e) {
 
-			ret = isFormula((Class<?>) clazz.getSuperclass(), property);
+			ret = isFormula(clazz.getSuperclass(), property);
 
 			classFieldFormula.put(key, ret);
 		}
@@ -209,6 +218,7 @@ public class BolsaUtil {
 	}
 
 	public static void main(String[] args) {
+
 		// Categoria c = new Categoria();
 		// BeanUtil.configuracionBasicaLog4j();
 		// String propiedad = "valorAMostrarAUsuario";
@@ -227,16 +237,19 @@ public class BolsaUtil {
 	}
 
 	public static boolean noEsNullVacioNiCollection(Object value) {
+
 		boolean ret = (value != null && !(value instanceof Collection) && !(value instanceof String))
 				|| (value instanceof String && !isBlank((String) value));
 		return ret;
 	}
 
 	public static BolsaUtil instance() {
+
 		return new BolsaUtil();
 	}
 
 	public Map<String, Object> getSessionMap() {
+
 		Map<String, Object> ret = null;
 		FacesContext fc = FacesContext.getCurrentInstance();
 		if (fc != null) {
@@ -254,6 +267,7 @@ public class BolsaUtil {
 	}
 
 	public Map<String, Object> getRequestMap() {
+
 		Map<String, Object> reqMap = new HashMap<String, Object>();
 		FacesContext fc = FacesContext.getCurrentInstance();
 		if (fc != null) {
@@ -265,6 +279,7 @@ public class BolsaUtil {
 	}
 
 	public Map<String, Object> getApplicationMap() {
+
 		Map<String, Object> appMap = new HashMap<String, Object>();
 		FacesContext fc = FacesContext.getCurrentInstance();
 		if (fc != null) {
@@ -276,6 +291,7 @@ public class BolsaUtil {
 	}
 
 	public static String firstLetterToUppercase(String campo) {
+
 		StringBuffer ret = new StringBuffer();
 		ret.append(campo.substring(0, 1).toUpperCase());
 		ret.append(campo.substring(1));
@@ -284,6 +300,7 @@ public class BolsaUtil {
 
 	public static boolean isOneToManyCascadeTypeALL(Object entity,
 			String property) {
+
 		boolean ret = false;
 		try {
 			Field field = entity.getClass().getDeclaredField(property);
@@ -318,6 +335,7 @@ public class BolsaUtil {
 
 	public static String truncateWithSuffix(String aString, int length,
 			String suffix) {
+
 		if (aString != null && suffix != null) {
 			int longitudReal = aString.length();
 			StringBuffer cadenaRet = new StringBuffer();
@@ -335,6 +353,7 @@ public class BolsaUtil {
 
 	public static ManyToOne getManyToOneAnnotation(Object entity,
 			String property) {
+
 		ManyToOne ret = null;
 		try {
 			Field field = entity.getClass().getDeclaredField(property);
@@ -356,6 +375,7 @@ public class BolsaUtil {
 
 	public static String padNumberWithZeros(Number number,
 			Integer cantidadZeros, Boolean left) {
+
 		String ret = null;
 		if (left)
 			ret = StringUtils.leftPad(number.toString(), cantidadZeros, "0");
@@ -365,14 +385,17 @@ public class BolsaUtil {
 	}
 
 	public static String leftPadZeros(Number cod, Integer cantidadZeros) {
+
 		return padNumberWithZeros(cod, cantidadZeros, true);
 	}
 
 	public static String rightPadZeros(Number cod, Integer cantidadZeros) {
+
 		return padNumberWithZeros(cod, cantidadZeros, false);
 	}
 
 	public static String encryptarConPassword(String message, byte[] key) {
+
 		String ret = null;
 		if (key.equals(defaultKey)) {
 			String cached = valoresEncriptadosClaveDefault.get(message);
@@ -403,11 +426,13 @@ public class BolsaUtil {
 	}
 
 	public static String desencryptarConPassword(String encrypted, byte[] key) {
+
 		return desencryptarConPassword(encrypted, key, false);
 	}
 
 	public static String desencryptarConPassword(String encrypted, byte[] key,
 			boolean quiet) {
+
 		String ret = null;
 		if (!isBlank(encrypted)) {
 			if (key.equals(defaultKey)
@@ -433,6 +458,7 @@ public class BolsaUtil {
 
 	private static String desencriptarConKeyByte(String encrypted, byte[] key,
 			boolean quiet) {
+
 		String ret = null;
 		try {
 			byte[] rawEnc = base64ToByte(encrypted);
@@ -472,14 +498,17 @@ public class BolsaUtil {
 	 * @throws IOException
 	 */
 	public static String byteToBase64(byte[] data) {
+
 		return Base64Coder.encodeLines(data);
 	}
 
 	public static String encrypt(String message) {
+
 		return encryptarConPassword(message, BolsaUtil.defaultKey);
 	}
 
 	public static String decrypt(String encrypted) {
+
 		return desencryptarConPassword(encrypted, BolsaUtil.defaultKey);
 	}
 
@@ -492,18 +521,22 @@ public class BolsaUtil {
 	 * @throws IOException
 	 */
 	public static byte[] base64ToByte(String data) throws IOException {
+
 		return Base64Coder.decodeLines(data);
 	}
 
 	public static Map<String, byte[]> getEmailsKeys() {
+
 		return emailsKeys;
 	}
 
 	public static void setCategoriaLogLevel(String categoria, Level level) {
+
 		org.apache.log4j.Logger.getLogger(categoria).setLevel(level);
 	}
 
 	public static void setHibernateLogLevel(String categoria, Level level) {
+
 		log.trace("Hibernate level a: " + level);
 		setCategoriaLogLevel("org.hibernate.SQL", level);
 		setCategoriaLogLevel("org.hibernate.type", level);
@@ -517,6 +550,7 @@ public class BolsaUtil {
 	 * @throws RegistroException
 	 */
 	public static String convertToLATIN(String s) throws RegistroException {
+
 		byte[] iso;
 		try {
 			iso = s.getBytes("ISO-8859-1");
@@ -535,6 +569,7 @@ public class BolsaUtil {
 	 * @return
 	 */
 	public static Boolean isCollectionValuesEmpty(Collection<?> collection) {
+
 		Boolean ret = true;
 		if (collection != null && !collection.isEmpty()) {
 			for (Object element : collection) {
@@ -557,6 +592,7 @@ public class BolsaUtil {
 	 * @return
 	 */
 	public static String getCriteriosCombinados(List<String> criterios) {
+
 		String ret = "";
 		if (criterios.size() == 2) {
 			ret += "%" + criterios.get(0) + "%" + criterios.get(1) + "%";
@@ -588,6 +624,7 @@ public class BolsaUtil {
 
 	public static String encryptarAUnaSolaLineaConPassword(String message,
 			byte[] key) {
+
 		String ret = null;
 		try {
 			Cipher c = Cipher.getInstance(ALGORITHM);
@@ -603,6 +640,7 @@ public class BolsaUtil {
 
 	public static String desencryptarDeUnaSolaLineaConPassword(
 			String encrypted, byte[] key) {
+
 		String ret = null;
 		try {
 			byte[] rawEnc = base64UnaSolaLineaToByte(encrypted);
@@ -618,14 +656,17 @@ public class BolsaUtil {
 	}
 
 	private static byte[] base64UnaSolaLineaToByte(String encrypted) {
+
 		return Base64Coder.decode(encrypted);
 	}
 
 	public static String byteToBase64UnaSolaLinea(byte[] data) {
+
 		return new String(Base64Coder.encode(data));
 	}
 
 	public static boolean valueOf(Boolean bool) {
+
 		boolean ret = false;
 		if (!isBlank(bool)) {
 			ret = Boolean.valueOf(bool);
@@ -634,11 +675,13 @@ public class BolsaUtil {
 	}
 
 	public static void habilitarLogSQL() {
+
 		BolsaUtil.setCategoriaLogLevel("org.hibernate.SQL", Level.DEBUG);
 		BolsaUtil.setCategoriaLogLevel("org.hibernate.type", Level.TRACE);
 	}
 
 	public static void deshabilitarLogSQL() {
+
 		BolsaUtil.setCategoriaLogLevel("org.hibernate.SQL", Level.WARN);
 		BolsaUtil.setCategoriaLogLevel("org.hibernate.type", Level.WARN);
 	}
@@ -650,24 +693,29 @@ public class BolsaUtil {
 	 * @return
 	 */
 	public static Integer getRandomInteger(int maxValue) {
+
 		Integer ret = (RandomUtils.nextInt() % maxValue) + 1;
 		return ret;
 	}
 
 	public static String desencryptarDeUnaSolaLinea(String cadenaEncriptada) {
+
 		return desencryptarDeUnaSolaLineaConPassword(cadenaEncriptada,
 				defaultKey);
 	}
 
 	public static String encryptarAUnaSolaLinea(String aEncriptar) {
+
 		return encryptarAUnaSolaLineaConPassword(aEncriptar, defaultKey);
 	}
 
 	public static byte[] getDefaultKey() {
+
 		return defaultKey;
 	}
 
 	public String getRemoteAddress() {
+
 		String ret = "SIN_NRO_IP";
 		FacesContext fContext = FacesContext.getCurrentInstance();
 		if (fContext != null) {
@@ -684,6 +732,7 @@ public class BolsaUtil {
 
 	public static String convertEncoding(String encoded, String charSetOrigen,
 			String charSetDestino) throws RegistroException {
+
 		String decoded = encoded;
 		Charset charsetUTF = Charset.forName(charSetDestino);
 		Charset charsetISO = Charset.forName(charSetOrigen);
@@ -710,6 +759,7 @@ public class BolsaUtil {
 	}
 
 	public static Date getFechaHastaViernes() {
+
 		Date ahora = new Date();
 		Date viernes2359 = null;
 		Calendar cal = Calendar.getInstance();
@@ -728,6 +778,7 @@ public class BolsaUtil {
 	}
 
 	public static Date getFechaHastaFinMes() {
+
 		Date ahora = new Date();
 		Date finMes = null;
 		Calendar cal = Calendar.getInstance();
@@ -747,6 +798,7 @@ public class BolsaUtil {
 	}
 
 	public static Date getFechaHastaFinAnio() {
+
 		Date ahora = new Date();
 		Date finAnio = null;
 		Calendar cal = Calendar.getInstance();
@@ -774,6 +826,7 @@ public class BolsaUtil {
 	 */
 	public static String convertToCharset(String s, String charset)
 			throws RegistroException {
+
 		byte[] iso;
 		try {
 			iso = s.getBytes(charset);
@@ -797,6 +850,7 @@ public class BolsaUtil {
 	 * @throws RegistroException
 	 */
 	public static String convertToUS_ACII(String s) {
+
 		char[] especiales = new char[] { 'á', 'é', 'í', 'o', 'u', 'Á', 'É',
 				'Í', 'Ó', 'Ú', 'ñ', 'Ñ' };
 		char[] reemplazos = new char[] { 'a', 'e', 'i', 'o', 'u', 'A', 'E',
@@ -809,6 +863,7 @@ public class BolsaUtil {
 	}
 
 	public static String getKeyByValue(Map<String, String> map, String value) {
+
 		for (Entry<String, String> entry : map.entrySet()) {
 			if (value.equals(entry.getValue())) {
 				return entry.getKey();
@@ -818,10 +873,12 @@ public class BolsaUtil {
 	}
 
 	public static String obtenerClaveFija() {
+
 		return bigIntegerFromMD5("aVerQuesaledeEsto102938");
 	}
 
 	public static String bigIntegerFromMD5(String cadena) {
+
 		String ret = null;
 		try {
 			MessageDigest digest = MessageDigest.getInstance("MD5");

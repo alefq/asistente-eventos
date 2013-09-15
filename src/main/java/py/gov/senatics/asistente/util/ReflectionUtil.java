@@ -21,16 +21,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.hibernate.collection.PersistentBag;
 import org.hibernate.collection.PersistentSet;
-
 import py.gov.senatics.asistente.domain.BaseEntity;
 import py.gov.senatics.asistente.exception.RegistroException;
 
@@ -39,11 +36,13 @@ public class ReflectionUtil {
 	static Logger log = Logger.getLogger(ReflectionUtil.class);
 
 	public static void main(String[] args) {
+
 		configuracionBasicaLog4j();
 	}
 
 	public static Object callGetter(Object bean, String fieldName)
 			throws IllegalStateException {
+
 		Method m = null;
 		Object ret = null;
 		try {
@@ -63,13 +62,14 @@ public class ReflectionUtil {
 
 	public static String callGetterDynamic(Object bean, String campo,
 			List<Integer> parametros) {
+
 		String nombreMetodo = "get" + firstLetterToUppercase(campo);
 		String ret = "_SIN_VALOR_";
 		Class<?>[] parameterTypes = new Class<?>[parametros.size()];
 		Object[] paramsArray = parametros.toArray();
 		int i = 0;
 		for (Iterator<?> iterator = parametros.iterator(); iterator.hasNext();) {
-			Object object = (Object) iterator.next();
+			Object object = iterator.next();
 			parameterTypes[i++] = object.getClass();
 		}
 		try {
@@ -86,6 +86,7 @@ public class ReflectionUtil {
 
 	public static void callSetter(Object bean, String fieldName, Object valor)
 			throws IllegalStateException {
+
 		Method m = null;
 		try {
 			if (fieldName.indexOf(".") > 0) {
@@ -105,6 +106,7 @@ public class ReflectionUtil {
 	 * 
 	 */
 	public static void configuracionBasicaLog4j() {
+
 		Properties conf = new Properties();
 		conf.put("log4j.rootLogger", "debug, myAppender");
 		conf.put("log4j.appender.myAppender",
@@ -115,6 +117,7 @@ public class ReflectionUtil {
 	}
 
 	public static String describe(Object objeto) {
+
 		return describe(objeto, true);
 	}
 
@@ -129,6 +132,7 @@ public class ReflectionUtil {
 	 * @return
 	 */
 	public static String describe(Object objeto, Boolean conHash) {
+
 		String nombre = objeto.getClass().getSimpleName();
 		String nombreClase = objeto.getClass().getName();
 		StringBuffer ret = new StringBuffer();
@@ -215,6 +219,7 @@ public class ReflectionUtil {
 	}
 
 	public static String firstLetterToUppercase(String campo) {
+
 		StringBuffer ret = new StringBuffer();
 		ret.append(campo.substring(0, 1).toUpperCase());
 		ret.append(campo.substring(1));
@@ -222,6 +227,7 @@ public class ReflectionUtil {
 	}
 
 	public static Class<?> getClassForField(Object bean, String fieldName) {
+
 		Class<?> ret = null;
 		try {
 			PropertyDescriptor pd = obtenerPropertyDescriptor(bean.getClass(),
@@ -234,6 +240,7 @@ public class ReflectionUtil {
 	}
 
 	public static Field getDeclaredField(String fieldName, Class<?> resultClass) {
+
 		Field ret = null;
 		Class<?> clazz = resultClass;
 		if (clazz != null) {
@@ -257,6 +264,7 @@ public class ReflectionUtil {
 
 	public static String[] getFieldList(Class<?> clazz)
 			throws IllegalStateException {
+
 		ArrayList<String> lista = new ArrayList<String>();
 		PropertyDescriptor[] descs = obtenerPropertyDescriptors(clazz);
 		for (PropertyDescriptor pd : descs) {
@@ -279,6 +287,7 @@ public class ReflectionUtil {
 	 */
 	public static List<String> getFieldsType(Class<?> clazz,
 			Class<?> elementType) {
+
 		List<String> ret = new ArrayList<String>();
 		List<String> camposNoEncontrados = new ArrayList<String>();
 		String[] fields = getFieldList(clazz);
@@ -305,6 +314,7 @@ public class ReflectionUtil {
 
 	public static List<String> getFieldsTypeCollection(Object value,
 			Class<?> elementType) {
+
 		List<String> ret = new ArrayList<String>();
 		String[] fields = getFieldList(value.getClass());
 		for (String fieldName : fields) {
@@ -330,12 +340,14 @@ public class ReflectionUtil {
 	}
 
 	public static String getGetterMethod(String fieldName) {
+
 		return "get" + fieldName.substring(0, 1).toUpperCase()
 				+ fieldName.substring(1, fieldName.length());
 	}
 
 	public static Method getMethod(Object bean, String nombre,
-			Class<?>... params) {
+			Class<?> ... params) {
+
 		Method ret = null;
 		try {
 			ret = bean.getClass().getMethod(nombre, params);
@@ -355,7 +367,8 @@ public class ReflectionUtil {
 	 * @return
 	 */
 	public static Method getMethodQuiet(Object bean, String nombre,
-			Class<?>... params) {
+			Class<?> ... params) {
+
 		Method m = null;
 		try {
 			m = bean.getClass().getMethod(nombre, params);
@@ -366,6 +379,7 @@ public class ReflectionUtil {
 	}
 
 	public static List<Method> getPublicMethods(Class<?> clazz) {
+
 		List<Method> ret = new ArrayList<Method>();
 		Method[] metodos = clazz.getDeclaredMethods();
 		for (int i = 0; i < metodos.length; i++) {
@@ -381,6 +395,7 @@ public class ReflectionUtil {
 
 	public static List<String> getPublicMethodsName(Class<?> clazz,
 			boolean withParameters) {
+
 		List<String> ret = new ArrayList<String>();
 		List<Method> metodosPublicos = getPublicMethods(clazz);
 		for (Method method : metodosPublicos) {
@@ -407,6 +422,7 @@ public class ReflectionUtil {
 
 	public static Method getReadMethod(Class<?> clazz, String fieldName)
 			throws IllegalStateException, NoSuchFieldException {
+
 		PropertyDescriptor desc = obtenerPropertyDescriptor(clazz, fieldName);
 		return desc.getReadMethod();
 	}
@@ -420,6 +436,7 @@ public class ReflectionUtil {
 	 * @return
 	 */
 	public static Object getValue(String tipo, Object valor) {
+
 		Object ret = null;
 		try {
 			Constructor<?> constructor = Class.forName(tipo).getConstructor(
@@ -434,12 +451,14 @@ public class ReflectionUtil {
 
 	public static Method getWriteMethod(Class<?> clazz, String fieldName)
 			throws IllegalStateException, NoSuchFieldException {
+
 		PropertyDescriptor desc = obtenerPropertyDescriptor(clazz, fieldName);
 		return desc.getWriteMethod();
 	}
 
 	public static Object invokeMethod(Method metodo, Object bean,
-			Object... parametros) {
+			Object ... parametros) {
+
 		Object ret = null;
 		try {
 			ret = metodo.invoke(bean, parametros);
@@ -453,6 +472,7 @@ public class ReflectionUtil {
 	public static PropertyDescriptor obtenerPropertyDescriptor(Class<?> clazz,
 			String fieldName) throws IllegalStateException,
 			NoSuchFieldException {
+
 		PropertyDescriptor ret = null;
 		PropertyDescriptor[] props = obtenerPropertyDescriptors(clazz);
 		for (PropertyDescriptor desc : props) {
@@ -476,12 +496,15 @@ public class ReflectionUtil {
 	 */
 	public static PropertyDescriptor[] obtenerPropertyDescriptors(
 			Class<?> destino) throws IllegalStateException {
+
 		// Method ret = null;
 		BeanInfo info;
 		PropertyDescriptor[] ret;
 		Comparator<PropertyDescriptor> comparator = new Comparator<PropertyDescriptor>() {
 
+			@Override
 			public int compare(PropertyDescriptor o1, PropertyDescriptor o2) {
+
 				int ret = -1;
 				// hack para que siempre muestre primero el "id"
 				if (o1.getName().equals("id")) {
@@ -506,6 +529,7 @@ public class ReflectionUtil {
 
 	public static Object read(Object fuente, String fieldName)
 			throws IllegalStateException {
+
 		try {
 			Method m = getReadMethod(fuente.getClass(), fieldName);
 			Object o = m.invoke(fuente, new Object[] {});
@@ -517,6 +541,7 @@ public class ReflectionUtil {
 
 	public static Object read(PropertyDescriptor property, Object object)
 			throws IllegalStateException {
+
 		try {
 			return property.getReadMethod().invoke(object, new Object[] {});
 		} catch (Exception e) {
@@ -525,6 +550,7 @@ public class ReflectionUtil {
 	}
 
 	public static Map<Integer, String> salidaComandoPorLinea(String cmdline) {
+
 		Map<Integer, String> ret = new HashMap<Integer, String>();
 		try {
 			Integer nroLinea = 1;
@@ -552,7 +578,8 @@ public class ReflectionUtil {
 	 * @return
 	 */
 	public static boolean tieneValoresNoVacios(Object entity,
-			String... camposAControlar) {
+			String ... camposAControlar) {
+
 		boolean ret = false;
 		String[] campos = ReflectionUtil.getFieldList(entity.getClass());
 		for (String campo : campos) {
@@ -568,6 +595,7 @@ public class ReflectionUtil {
 	}
 
 	public static boolean isBlank(Object valorCargado) {
+
 		boolean blank = false;
 		if (valorCargado != null)
 			blank = valorCargado.toString().trim().length() == 0;
@@ -576,6 +604,7 @@ public class ReflectionUtil {
 
 	public static void write(PropertyDescriptor property, Object object,
 			Object value) throws IllegalStateException {
+
 		try {
 			property.getWriteMethod().invoke(object, value);
 		} catch (Exception e) {
@@ -584,6 +613,7 @@ public class ReflectionUtil {
 	}
 
 	public static String getCurrentMethodName() {
+
 		boolean doNext = false;
 		String ret = null;
 		StackTraceElement[] e = Thread.currentThread().getStackTrace();
@@ -605,6 +635,7 @@ public class ReflectionUtil {
 	 */
 	private static String describeBaseEntity(Boolean conHash,
 			BaseEntity baseEBean) {
+
 		String stringValue;
 		if (conHash) {
 			stringValue = baseEBean.toString(true);
@@ -631,6 +662,7 @@ public class ReflectionUtil {
 	 * @return
 	 */
 	public static boolean hasSomeValue(Object bean) {
+
 		boolean ret = false;
 		if (bean != null) {
 			try {
@@ -660,13 +692,15 @@ public class ReflectionUtil {
 	}
 
 	public static boolean noEsNullVacioNiCollection(Object value) {
+
 		boolean ret = (value != null && !(value instanceof Collection) && !(value instanceof String))
-				|| (value instanceof String && !isBlank((String) value));
+				|| (value instanceof String && !isBlank(value));
 		return ret;
 	}
 
 	public static ManyToOne getManyToOneAnnotation(BaseEntity entity,
 			String property) {
+
 		ManyToOne ret = null;
 		try {
 			Field field = entity.getClass().getDeclaredField(property);
@@ -686,7 +720,9 @@ public class ReflectionUtil {
 		return ret;
 	}
 
-	public static void camposVaciosANull(BaseEntity<Long> entity) throws RegistroException {
+	public static void camposVaciosANull(BaseEntity<Long> entity)
+			throws RegistroException {
+
 		List<String> camposString = ReflectionUtil.getFieldsType(
 				entity.getClass(), String.class);
 		for (String nombreCampo : camposString) {

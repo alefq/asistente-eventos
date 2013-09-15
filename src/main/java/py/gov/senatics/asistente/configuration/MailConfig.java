@@ -11,18 +11,22 @@ public class MailConfig {
 	private String password;
 
 	public String getServer() {
+
 		return server;
 	}
 
 	public Integer getPort() {
+
 		return port;
 	}
 
 	public String getUser() {
+
 		return user;
 	}
 
 	public String getPassword() {
+
 		return password;
 	}
 

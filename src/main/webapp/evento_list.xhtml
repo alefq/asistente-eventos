@@ -4,7 +4,11 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
 
 	<ui:define name="body">
-		<h:form>
+		<f:facet name="last">
+			<h:outputStylesheet library="css" name="asistente.css"/>
+		</f:facet>	
+		<h:form id="form">
+			<p:growl id="growl" showDetail="true"/>
 			<p:toolbar>
 				<p:toolbarGroup align="left">
 					<p:commandButton title="#{messages['button.new']}" image="ui-icon-document" action="#{eventoListMB.getNextView}"
@@ -12,164 +16,140 @@
 
 					<p:commandButton title="#{messages['button.delete']}" image="ui-icon-trash" onclick="confirmation.show()"
 						type="button" immediate="true" ajax="false" />
-
-					<p:confirmDialog message="#{messages['label.confirm.delete']}" showEffect="bounce" hideEffect="explode"
-						header="#{messages['label.dialog.alert']}!" severity="alert" widgetVar="confirmation">
-
-						<h:commandButton value="#{messages['button.dialog.yes']}" action="#{eventoListMB.deleteSelection}"
-							actionListener="#{eventoListMB.clear}" />
-						<h:commandButton value="#{messages['button.dialog.no']}" onclick="confirmation.hide()" type="button" />
-					</p:confirmDialog>
 				</p:toolbarGroup>
 			</p:toolbar>
-			<p:dataTable id="list" var="bean" value="#{eventoListMB.resultList}">
+			
+			<p:dataTable id="list" var="bean" value="#{eventoListMB.resultList}"> 
+				
 				<f:facet name="header">#{messages['evento.list.table.title']}</f:facet>
+				
 				<p:column style="width:1%;">
 					<h:selectBooleanCheckbox value="#{eventoListMB.selection[bean.eventoId]}"></h:selectBooleanCheckbox>
 				</p:column>
 				
-				<p:column style="width:5%;" sortBy="#{bean.eventoId}">
-					<f:facet name="header">#{messages['evento.label.eventoId']}</f:facet>
-					<h:outputText value="#{bean.eventoId}" />
+				<p:column sortBy="#{bean.nombre}">
+					<f:facet name="header">#{messages['evento.list.nombreEntidadOrganizadora']}</f:facet>
+					<h:outputText value="#{bean.nombre}" />
+				</p:column>
+				
+				<p:column sortBy="#{bean.nombreEvento}">
+					<f:facet name="header">#{messages['evento.list.nombreEvento']}</f:facet>
+					<h:outputText value="#{bean.nombreEvento}" />
+				</p:column>
+				
+				<p:column sortBy="#{bean.fechaInicio}">
+					<f:facet name="header">#{messages['evento.list.fechaInicioEvento']}</f:facet>
+					<h:outputText value="#{bean.fechaInicio}" />
+				</p:column>
+				
+				<p:column sortBy="#{bean.fechaFin}">
+					<f:facet name="header">#{messages['evento.list.fechaFinEvento']}</f:facet>
+					<h:outputText value="#{bean.fechaFin}" />
 				</p:column>
 						
 				<p:column sortBy="#{bean.contactoEmail}">
-					<f:facet name="header">#{messages['evento.label.contactoEmail']}</f:facet>
-					<h:commandLink action="#{eventoListMB.getNextView}" actionListener="#{eventoListMB.clear}">
-						<h:outputText value="#{bean.contactoEmail}" />
-						<f:param name="id" value="#{bean.eventoId}" />
-					</h:commandLink>
+					<f:facet name="header">#{messages['evento.list.email']}</f:facet>
+					<h:outputText value="#{bean.contactoEmail}" />
 				</p:column>
-						
-				<p:column sortBy="#{bean.contactoTelefono}">
-					<f:facet name="header">#{messages['evento.label.contactoTelefono']}</f:facet>
-					<h:commandLink action="#{eventoListMB.getNextView}" actionListener="#{eventoListMB.clear}">
-						<h:outputText value="#{bean.contactoTelefono}" />
+				
+				<p:column style="width:4%">
+                	<p:commandButton id="viewButton" update=":form:display" oncomplete="viewDialog.show()" 
+                	icon="ui-icon-search" title="Ver">
+                		<f:setPropertyActionListener value="#{bean}" target="#{eventoListMB.selectedEvento}" />
+            		</p:commandButton>
+            		
+            		<p:commandButton title="#{messages['button.edit']}" action="#{eventoListMB.getNextView}" 
+					actionListener="#{eventoListMB.clear}" icon="ui-icon-pencil" ajax="false">
 						<f:param name="id" value="#{bean.eventoId}" />
-					</h:commandLink>
-				</p:column>
-						
-				<p:column sortBy="#{bean.direccionLocal}">
-					<f:facet name="header">#{messages['evento.label.direccionLocal']}</f:facet>
-					<h:commandLink action="#{eventoListMB.getNextView}" actionListener="#{eventoListMB.clear}">
-						<h:outputText value="#{bean.direccionLocal}" />
-						<f:param name="id" value="#{bean.eventoId}" />
-					</h:commandLink>
-				</p:column>
-						
-				<p:column sortBy="#{bean.fechaFin}">
-					<f:facet name="header">#{messages['evento.label.fechaFin']}</f:facet>
-					<h:commandLink action="#{eventoListMB.getNextView}" actionListener="#{eventoListMB.clear}">
-						<h:outputText value="#{bean.fechaFin}" />
-						<f:param name="id" value="#{bean.eventoId}" />
-					</h:commandLink>
-				</p:column>
-						
-				<p:column sortBy="#{bean.fechaInicio}">
-					<f:facet name="header">#{messages['evento.label.fechaInicio']}</f:facet>
-					<h:commandLink action="#{eventoListMB.getNextView}" actionListener="#{eventoListMB.clear}">
-						<h:outputText value="#{bean.fechaInicio}" />
-						<f:param name="id" value="#{bean.eventoId}" />
-					</h:commandLink>
-				</p:column>
-						
-				<p:column sortBy="#{bean.nivelEntidadCodigo}">
-					<f:facet name="header">#{messages['evento.label.nivelEntidadCodigo']}</f:facet>
-					<h:commandLink action="#{eventoListMB.getNextView}" actionListener="#{eventoListMB.clear}">
-						<h:outputText value="#{bean.nivelEntidadCodigo}" />
-						<f:param name="id" value="#{bean.eventoId}" />
-					</h:commandLink>
-				</p:column>
-						
-				<p:column sortBy="#{bean.nombre}">
-					<f:facet name="header">#{messages['evento.label.nombre']}</f:facet>
-					<h:commandLink action="#{eventoListMB.getNextView}" actionListener="#{eventoListMB.clear}">
-						<h:outputText value="#{bean.nombre}" />
-						<f:param name="id" value="#{bean.eventoId}" />
-					</h:commandLink>
-				</p:column>
-						
-				<p:column sortBy="#{bean.nombreAbreviado}">
-					<f:facet name="header">#{messages['evento.label.nombreAbreviado']}</f:facet>
-					<h:commandLink action="#{eventoListMB.getNextView}" actionListener="#{eventoListMB.clear}">
-						<h:outputText value="#{bean.nombreAbreviado}" />
-						<f:param name="id" value="#{bean.eventoId}" />
-					</h:commandLink>
-				</p:column>
-						
-				<p:column sortBy="#{bean.nombreEvento}">
-					<f:facet name="header">#{messages['evento.label.nombreEvento']}</f:facet>
-					<h:commandLink action="#{eventoListMB.getNextView}" actionListener="#{eventoListMB.clear}">
-						<h:outputText value="#{bean.nombreEvento}" />
-						<f:param name="id" value="#{bean.eventoId}" />
-					</h:commandLink>
-				</p:column>
-						
-				<p:column sortBy="#{bean.nombreLocal}">
-					<f:facet name="header">#{messages['evento.label.nombreLocal']}</f:facet>
-					<h:commandLink action="#{eventoListMB.getNextView}" actionListener="#{eventoListMB.clear}">
-						<h:outputText value="#{bean.nombreLocal}" />
-						<f:param name="id" value="#{bean.eventoId}" />
-					</h:commandLink>
-				</p:column>
-						
-				<p:column sortBy="#{bean.observacion}">
-					<f:facet name="header">#{messages['evento.label.observacion']}</f:facet>
-					<h:commandLink action="#{eventoListMB.getNextView}" actionListener="#{eventoListMB.clear}">
-						<h:outputText value="#{bean.observacion}" />
-						<f:param name="id" value="#{bean.eventoId}" />
-					</h:commandLink>
-				</p:column>
-						
-				<p:column sortBy="#{bean.observaciones}">
-					<f:facet name="header">#{messages['evento.label.observaciones']}</f:facet>
-					<h:commandLink action="#{eventoListMB.getNextView}" actionListener="#{eventoListMB.clear}">
-						<h:outputText value="#{bean.observaciones}" />
-						<f:param name="id" value="#{bean.eventoId}" />
-					</h:commandLink>
-				</p:column>
-						
-				<p:column sortBy="#{bean.rutaLogoBanner}">
-					<f:facet name="header">#{messages['evento.label.rutaLogoBanner']}</f:facet>
-					<h:commandLink action="#{eventoListMB.getNextView}" actionListener="#{eventoListMB.clear}">
-						<h:outputText value="#{bean.rutaLogoBanner}" />
-						<f:param name="id" value="#{bean.eventoId}" />
-					</h:commandLink>
-				</p:column>
-						
-				<p:column sortBy="#{bean.rutaLogoCabecera}">
-					<f:facet name="header">#{messages['evento.label.rutaLogoCabecera']}</f:facet>
-					<h:commandLink action="#{eventoListMB.getNextView}" actionListener="#{eventoListMB.clear}">
-						<h:outputText value="#{bean.rutaLogoCabecera}" />
-						<f:param name="id" value="#{bean.eventoId}" />
-					</h:commandLink>
-				</p:column>
-						
-				<p:column sortBy="#{bean.rutaLogoPie}">
-					<f:facet name="header">#{messages['evento.label.rutaLogoPie']}</f:facet>
-					<h:commandLink action="#{eventoListMB.getNextView}" actionListener="#{eventoListMB.clear}">
-						<h:outputText value="#{bean.rutaLogoPie}" />
-						<f:param name="id" value="#{bean.eventoId}" />
-					</h:commandLink>
-				</p:column>
-						
-				<p:column sortBy="#{bean.urlGeolocalizacion}">
-					<f:facet name="header">#{messages['evento.label.urlGeolocalizacion']}</f:facet>
-					<h:commandLink action="#{eventoListMB.getNextView}" actionListener="#{eventoListMB.clear}">
-						<h:outputText value="#{bean.urlGeolocalizacion}" />
-						<f:param name="id" value="#{bean.eventoId}" />
-					</h:commandLink>
-				</p:column>
-						
-				<p:column sortBy="#{bean.ciudad}">
-					<f:facet name="header">#{messages['evento.label.ciudad']}</f:facet>
-					<h:commandLink action="#{eventoListMB.getNextView}" actionListener="#{eventoListMB.clear}">
-						<h:outputText value="#{bean.ciudad}" />
-						<f:param name="id" value="#{bean.eventoId}" />
-					</h:commandLink>
-				</p:column>
+					</p:commandButton>
+            		
+            		<p:commandButton id="deleteButton" oncomplete="deleteDialog.show()" 
+                	icon="ui-icon-trash" title="Eliminar">
+                		<f:setPropertyActionListener value="#{bean}" target="#{eventoListMB.selectedEvento}" />
+            		</p:commandButton>
+        	    </p:column>	
 						
 			</p:dataTable>
+			
+			<p:dialog header="Más información del evento" widgetVar="viewDialog" resizable="false"
+              showEffect="explode" hideEffect="explode" appendToBody="true">
+		        
+		        <h:panelGrid id="display" columns="2" cellpadding="4">
+						        			
+		            <h:outputText value="#{messages['asistente.label.nombreEntidadOrganizadora']}:" />
+		            <h:outputText value="#{eventoListMB.selectedEvento.nombre}" style="font-weight:bold"/>
+		            
+		            <h:outputText value="#{messages['asistente.label.abreviaturaEntidadOrganizadora']}:" />
+		            <h:outputText value="#{eventoListMB.selectedEvento.nombreAbreviado}" style="font-weight:bold"/>
+		            
+		            <h:outputText value="#{messages['asistente.label.nombreTituloEvento']}:" />
+		            <h:outputText value="#{eventoListMB.selectedEvento.nombreEvento}" style="font-weight:bold"/>
+		            
+		            <h:outputText value="#{messages['asistente.label.fechaInicioEvento']}:" />
+		            <h:outputText value="#{eventoListMB.selectedEvento.fechaInicio}" style="font-weight:bold" />
+		            
+		            <h:outputText value="#{messages['asistente.label.fechaFinEvento']}:" />
+		            <h:outputText value="#{eventoListMB.selectedEvento.fechaFin}" style="font-weight:bold"/>
+		            
+		            <h:outputText value="#{messages['asistente.label.ciudad']}:" />
+		            <h:outputText value="#{eventoListMB.selectedEvento.ciudad.nombre}" style="font-weight:bold"/>
+		            
+		            <h:outputText value="#{messages['asistente.label.pais']}:" />
+		            <h:outputText value="#{eventoListMB.selectedEvento.ciudad.pais.nombre}" style="font-weight:bold"/> 
+		            
+		            <h:outputText value="#{messages['asistente.label.nombreLocal']}:" />
+		            <h:outputText value="#{eventoListMB.selectedEvento.nombreLocal}" style="font-weight:bold"/>
+		            
+		            <h:outputText value="#{messages['asistente.label.direccionLocal']}:" />
+		            <h:outputText value="#{eventoListMB.selectedEvento.direccionLocal}" style="font-weight:bold"/>
+		            
+		            <h:outputText value="#{messages['asistente.label.uriGeolocalizacion']}:" />
+		            <h:outputText value="#{eventoListMB.selectedEvento.urlGeolocalizacion}" style="font-weight:bold"/>
+		            
+		            <h:outputText value="#{messages['asistente.label.nroTelefono']}:" />
+		            <h:outputText value="#{eventoListMB.selectedEvento.contactoTelefono}" style="font-weight:bold"/>
+		            
+		            <h:outputText value="#{messages['asistente.label.email']}:" />
+		            <h:outputText value="#{eventoListMB.selectedEvento.contactoEmail}" style="font-weight:bold"/>	
+		            
+		            <h:outputText value="#{messages['asistente.label.logoBanner']}:" />
+		            <h:outputText value="#{eventoListMB.selectedEvento.rutaLogoBanner}" style="font-weight:bold"/>
+		            
+		            <h:outputText value="#{messages['asistente.label.logoCabecera']}:" />
+		            <h:outputText value="#{eventoListMB.selectedEvento.rutaLogoCabecera}" style="font-weight:bold"/>	
+		            
+		            <h:outputText value="#{messages['asistente.label.logoPie']}:" />
+		            <h:outputText value="#{eventoListMB.selectedEvento.rutaLogoPie}" style="font-weight:bold"/>
+		            
+		            <h:outputText value="#{messages['asistente.label.observaciones']}:" />
+		            <h:outputText value="#{eventoListMB.selectedEvento.observacion}" style="font-weight:bold"/>
+			            
+			     </h:panelGrid>
+			</p:dialog>
+			
+			<p:dialog showEffect="explode" hideEffect="explode"
+				header="#{messages['label.dialog.alert']}!" widgetVar="deleteDialog">
+				<p:outputLabel>#{messages['label.confirm.delete']}</p:outputLabel>
+				<br/>
+				<p:separator />				
+				<p:commandButton value="#{messages['button.dialog.yes']}" action="#{eventoListMB.deleteRow}"
+				   actionListener="#{eventoListMB.clear}"
+				   update=":form:list :form:growl" oncomplete="deleteDialog.hide()" />
+				<p:commandButton value="#{messages['button.dialog.no']}" onclick="deleteDialog.hide()" type="button" />
+			</p:dialog>
+			
+			<p:dialog showEffect="explode" hideEffect="explode"
+				header="#{messages['label.dialog.alert']}!" widgetVar="confirmation">
+				<p:outputLabel>#{messages['label.confirm.delete']}</p:outputLabel>
+				<br/>
+				<p:separator />				
+				<p:commandButton value="#{messages['button.dialog.yes']}" action="#{eventoListMB.deleteSelection}"
+				   actionListener="#{eventoListMB.clear}"
+				   update=":form:list :form:growl" oncomplete="confirmation.hide()" />
+				<p:commandButton value="#{messages['button.dialog.no']}" onclick="deleteDialog.hide()" type="button" />
+			</p:dialog>
+			
+			
 		</h:form>
 
 	</ui:define>
