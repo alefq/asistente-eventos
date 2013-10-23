@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.faces.bean.ApplicationScoped;
 
@@ -36,6 +37,11 @@ public class ApplicationSettings implements Serializable {
         public Date getCurrentTime()
         {
         	return Calendar.getInstance(getCurrentLocale()).getTime();
+        }
+        
+        public TimeZone getTimeZone()
+        {
+        	return TimeZone.getDefault();
         }
 
 }
