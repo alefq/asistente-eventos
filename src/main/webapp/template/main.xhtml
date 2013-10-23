@@ -21,7 +21,7 @@
 			<td height="400" colspan="2"><ui:insert name="body" /></td>
 		</tr>
 		<tr align="center">
-			<td height="20" colspan="2" align="center" class="text-input">#{messages['main.footer.text']}</td>
+			<td height="20" colspan="2" align="center" class="text-input">#{messages['main.footer.text']} - Fecha: <h:outputText value="#{applicationSettings.currentTime}"><f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" type="both"/></h:outputText></td>
 		</tr>
 	</table>
 
